@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt" data-lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publicações — APC</title>
+  <meta name="description" content="Publicações da APC — Revistas Científicas e obras de Legislação Fundamental de Direito Penal." />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <meta name="theme-color" content="#111820" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slate:  { DEFAULT: '#2C4A5C', 900: '#1a2a36', 800: '#243d4d', 700: '#2C4A5C', 600: '#3a5f75', 100: '#e8eff3' },
+            brand:  { red: '#C0392B', green: '#27AE60', dark: '#111820' },
+          },
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'serif'],
+            sans:    ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: #1a2a36; background: #fff; overflow-x: hidden; }
+    .font-display { font-family: 'Cormorant Garamond', serif; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #111820; }
+    ::-webkit-scrollbar-thumb { background: #C0392B; border-radius: 3px; }
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      transition: background 0.4s, box-shadow 0.4s;
+      background: rgba(17,24,32,0.96); backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .nav-link {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(255,255,255,0.75);
+      transition: color 0.2s; padding: 0.25rem 0; position: relative;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px;
+      background: #C0392B; transition: width 0.3s;
+    }
+    .nav-link:hover, .nav-link.active { color: #fff; }
+    .nav-link.active::after, .nav-link:hover::after { width: 100%; }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .accent-line { width: 60px; height: 3px; background: linear-gradient(90deg, #C0392B, #27AE60); border-radius: 2px; }
+    .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #C0392B; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; line-height: 1.15; }
+    .news-card { background: #fff; border: 1px solid #e8eff3; border-radius: 2px; overflow: hidden; transition: box-shadow 0.3s, transform 0.3s; }
+    .news-card:hover { box-shadow: 0 12px 40px rgba(44,74,92,0.12); transform: translateY(-3px); }
+    .news-card .card-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 1px; }
+    .council-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+    @media (min-width: 640px) { .council-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 1024px) { .council-grid { grid-template-columns: repeat(5, 1fr); } }
+    .council-card { text-align: center; padding: 1.5rem 1rem 1.25rem; background: #fff; border: 1px solid #e8eff3; border-radius: 2px; transition: box-shadow 0.3s, transform 0.3s; }
+    .council-card:hover { box-shadow: 0 8px 30px rgba(44,74,92,0.1); transform: translateY(-3px); }
+    .council-photo { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; margin: 0 auto 12px; display: block; border: 3px solid #e8eff3; transition: border-color 0.3s; }
+    .council-card:hover .council-photo { border-color: #C0392B; }
+    .council-role { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #C0392B; margin-bottom: 4px; }
+    .council-name { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; font-weight: 600; color: #1a2a36; line-height: 1.3; }
+    .lang-btn { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 1px; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.7); }
+    .lang-btn.active { background: #C0392B; border-color: #C0392B; color: #fff; }
+    .footer-link { color: rgba(255,255,255,0.5); font-size: 0.8rem; transition: color 0.2s; }
+    .footer-link:hover { color: #fff; }
+    #mobile-menu { position: fixed; inset: 0; z-index: 200; background: rgba(17,24,32,0.98); backdrop-filter: blur(20px); transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; }
+    #mobile-menu.open { transform: translateX(0); }
+    .mobile-nav-link { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 500; color: #fff; text-decoration: none; transition: color 0.2s; }
+    .mobile-nav-link:hover { color: #C0392B; }
+    @media (max-width: 768px) { .desktop-nav { display: none; } .mobile-toggle { display: flex !important; } }
+    @media (min-width: 769px) { .mobile-toggle { display: none !important; } }
+  </style>
+</head>
+<body>
+<div id="mobile-menu" role="dialog" aria-modal="true">
+  <button id="close-menu" class="absolute top-6 right-6 text-white" aria-label="Fechar menu">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+  <a href="index.html#sobre" class="mobile-nav-link" data-pt="Sobre" data-en="About">Sobre</a>
+  <a href="conselho.html" class="mobile-nav-link" data-pt="Conselho" data-en="Advisory">Conselho</a>
+  <a href="noticias.html" class="mobile-nav-link" data-pt="Notícias" data-en="News">Notícias</a>
+  <a href="publicacoes.html" class="mobile-nav-link" data-pt="Publicações" data-en="Publications">Publicações</a>
+  <a href="eventos.html" class="mobile-nav-link" data-pt="Eventos" data-en="Events">Eventos</a>
+  <a href="index.html#socios" class="mobile-nav-link" data-pt="Ser Sócio" data-en="Membership">Ser Sócio</a>
+  <a href="index.html#contactos" class="mobile-nav-link" data-pt="Contactos" data-en="Contacts">Contactos</a>
+  <div class="flex gap-2 mt-4">
+    <button onclick="setLang('pt')" class="lang-btn active" id="mob-pt">PT</button>
+    <button onclick="setLang('en')" class="lang-btn" id="mob-en">EN</button>
+  </div>
+</div>
+<nav id="navbar" aria-label="Navegação principal">
+  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16 lg:h-18">
+    <a href="index.html" class="flex-shrink-0">
+      <img src="logotopo.png" alt="APC" class="h-9 lg:h-10 w-auto brightness-110" />
+    </a>
+    <div class="desktop-nav hidden md:flex items-center gap-5 lg:gap-7">
+      <a href="index.html#sobre" class="nav-link" data-pt="Sobre a APC" data-en="About APC">Sobre a APC</a>
+      <a href="conselho.html" class="nav-link" data-pt="Conselho Consultivo" data-en="Advisory Board">Conselho Consultivo</a>
+      <a href="noticias.html" class="nav-link" data-pt="Notícias" data-en="News">Notícias</a>
+      <a href="publicacoes.html" class="nav-link active" data-pt="Publicações" data-en="Publications">Publicações</a>
+      <a href="eventos.html" class="nav-link" data-pt="Eventos" data-en="Events">Eventos</a>
+      <a href="index.html#socios" class="nav-link" data-pt="Ser Sócio" data-en="Membership">Ser Sócio</a>
+      <a href="index.html#contactos" class="nav-link" data-pt="Contactos" data-en="Contacts">Contactos</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="flex gap-1">
+        <button onclick="setLang('pt')" class="lang-btn active" id="desk-pt">PT</button>
+        <button onclick="setLang('en')" class="lang-btn" id="desk-en">EN</button>
+      </div>
+      <button id="open-menu" class="mobile-toggle hidden text-white p-1 ml-2" aria-label="Abrir menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+<div style="background:#111820; padding:130px 0 60px; position:relative; overflow:hidden;">
+  <div style="position:absolute; inset:0; background:linear-gradient(135deg,rgba(192,57,43,0.07) 0%,transparent 60%);"></div>
+  <div class="max-w-7xl mx-auto px-6" style="position:relative; z-index:1; padding-bottom:20px;">
+    <a href="index.html"
+       style="display:inline-flex; align-items:center; gap:6px; color:rgba(255,255,255,0.45); font-size:0.72rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; transition:color 0.2s;"
+       onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      <span data-pt="Início" data-en="Home">Início</span>
+    </a>
+  </div>
+  <div class="max-w-7xl mx-auto px-6 text-center" style="position:relative; z-index:1;">
+    <p class="section-label reveal" data-pt="Investigação & Legislação" data-en="Research & Legislation">Investigação & Legislação</p>
+    <h1 class="section-title reveal text-white mt-3 mb-5" style="transition-delay:0.1s" data-pt="Publicações" data-en="Publications">Publicações</h1>
+    <div class="accent-line reveal mx-auto" style="transition-delay:0.2s"></div>
+  </div>
+</div>
+<section style="background:#fff; padding:80px 0;">
+  <div class="max-w-7xl mx-auto px-6">
+    <p class="text-xs font-bold tracking-widest uppercase mb-6 reveal" style="color:#2C4A5C;" data-pt="Revista Científica" data-en="Scientific Journal">Revista Científica</p>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-16">
+      <div class="reveal group"><div style="position:relative; padding-bottom:140%; overflow:hidden; border-radius:2px; box-shadow:0 4px 20px rgba(0,0,0,0.12);"><img src="https://apcriminologia.com/pt/img/magazines/3Ed_MagazineAPC.JPG" alt="Revista Científica APC 3ª Edição" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" /></div><div class="mt-3"><p class="text-xs font-bold tracking-widest uppercase mb-1" style="color:#C0392B;">Mai. 2019</p><p class="font-display font-semibold text-slate-900 leading-snug" style="font-size:0.95rem;">Revista Científica APC — 3ª Edição</p><a href="https://apcriminologia.com/pt/img/magazines/Criminologia_E3Maio_2019.pdf" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 mt-3 text-xs font-bold tracking-widest uppercase" style="color:#27AE60;" data-pt="Descarregar PDF →" data-en="Download PDF →">Descarregar PDF →</a></div></div>
+      <div class="reveal group" style="transition-delay:0.1s"><div style="position:relative; padding-bottom:140%; overflow:hidden; border-radius:2px; box-shadow:0 4px 20px rgba(0,0,0,0.12);"><img src="https://apcriminologia.com/pt/img/magazines/2Ed_MagazineAPC.JPG" alt="Revista Científica APC 2ª Edição" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" /></div><div class="mt-3"><p class="text-xs font-bold tracking-widest uppercase mb-1" style="color:#C0392B;">Nov. 2018</p><p class="font-display font-semibold text-slate-900 leading-snug" style="font-size:0.95rem;">Revista Científica APC — 2ª Edição</p><a href="https://apcriminologia.com/pt/img/magazines/Criminologia_E2Novembro_2018.pdf" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 mt-3 text-xs font-bold tracking-widest uppercase" style="color:#27AE60;" data-pt="Descarregar PDF →" data-en="Download PDF →">Descarregar PDF →</a></div></div>
+      <div class="reveal group" style="transition-delay:0.2s"><div style="position:relative; padding-bottom:140%; overflow:hidden; border-radius:2px; box-shadow:0 4px 20px rgba(0,0,0,0.12);"><img src="https://apcriminologia.com/pt/img/magazines/1Ed_MagazineAPC.JPG" alt="Revista Científica APC 1ª Edição" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" /></div><div class="mt-3"><p class="text-xs font-bold tracking-widest uppercase mb-1" style="color:#C0392B;">Abr. 2018</p><p class="font-display font-semibold text-slate-900 leading-snug" style="font-size:0.95rem;">Revista Científica APC — 1ª Edição</p><a href="https://apcriminologia.com/pt/img/magazines/Criminologia_E1Abril_2018.pdf" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 mt-3 text-xs font-bold tracking-widest uppercase" style="color:#27AE60;" data-pt="Descarregar PDF →" data-en="Download PDF →">Descarregar PDF →</a></div></div>
+    </div>
+    <p class="text-xs font-bold tracking-widest uppercase mb-6 reveal" style="color:#2C4A5C;" data-pt="Legislação &amp; Obras" data-en="Legislation &amp; Works">Legislação &amp; Obras</p>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div class="reveal group"><div style="position:relative; padding-bottom:140%; overflow:hidden; border-radius:2px; box-shadow:0 4px 20px rgba(0,0,0,0.12);"><img src="https://apcriminologia.com/pt/img/magazines/ACICCF.PNG" alt="A Criminologia na Investigação Criminal" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" /></div><div class="mt-3"><p class="text-xs font-bold tracking-widest uppercase mb-1" style="color:#C0392B;">Nov. 2020</p><p class="font-display font-semibold text-slate-900 leading-snug" style="font-size:0.95rem;">A Criminologia na Investigação Criminal e nas Ciências Forenses</p><p class="text-xs text-slate-400 mt-1">Bruno Costa Teixeira</p><a href="https://apcriminologia.com/pt/img/magazines/ACICCF.pdf" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 mt-3 text-xs font-bold tracking-widest uppercase" style="color:#27AE60;" data-pt="Descarregar PDF →" data-en="Download PDF →">Descarregar PDF →</a></div></div>
+      <div class="reveal group" style="transition-delay:0.1s"><div style="position:relative; padding-bottom:140%; overflow:hidden; border-radius:2px; box-shadow:0 4px 20px rgba(0,0,0,0.12);"><img src="https://apcriminologia.com/pt/img/magazines/capa2EdDez_1A.jpg" alt="Legislação Fundamental de Direito Penal 2ª Ed. Vol. I" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" /></div><div class="mt-3"><p class="text-xs font-bold tracking-widest uppercase mb-1" style="color:#C0392B;">Dez. 2020</p><p class="font-display font-semibold text-slate-900 leading-snug" style="font-size:0.95rem;">Legislação Fundamental de Direito Penal — 2ª Ed. Vol. I</p><a href="https://apcriminologia.com/pt/img/magazines/LFDP_2Edi_vI.pdf" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 mt-3 text-xs font-bold tracking-widest uppercase" style="color:#27AE60;" data-pt="Descarregar PDF →" data-en="Download PDF →">Descarregar PDF →</a></div></div>
+      <div class="reveal group" style="transition-delay:0.2s"><div style="position:relative; padding-bottom:140%; overflow:hidden; border-radius:2px; box-shadow:0 4px 20px rgba(0,0,0,0.12);"><img src="https://apcriminologia.com/pt/img/magazines/capa2EdDez_2A.jpg" alt="Legislação Fundamental de Direito Penal 2ª Ed. Vol. II" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" /></div><div class="mt-3"><p class="text-xs font-bold tracking-widest uppercase mb-1" style="color:#C0392B;">Dez. 2020</p><p class="font-display font-semibold text-slate-900 leading-snug" style="font-size:0.95rem;">Legislação Fundamental de Direito Penal — 2ª Ed. Vol. II</p><a href="https://apcriminologia.com/pt/img/magazines/LFDP_2Edi_vII.pdf" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 mt-3 text-xs font-bold tracking-widest uppercase" style="color:#27AE60;" data-pt="Descarregar PDF →" data-en="Download PDF →">Descarregar PDF →</a></div></div>
+      <div class="reveal group" style="transition-delay:0.3s"><div style="position:relative; padding-bottom:140%; overflow:hidden; border-radius:2px; box-shadow:0 4px 20px rgba(0,0,0,0.12);"><img src="https://apcriminologia.com/pt/img/magazines/capa_f_v1.jpg" alt="Legislação Fundamental de Direito Penal 1ª Ed. Vol. I" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" /></div><div class="mt-3"><p class="text-xs font-bold tracking-widest uppercase mb-1" style="color:#C0392B;">Ago. 2020</p><p class="font-display font-semibold text-slate-900 leading-snug" style="font-size:0.95rem;">Legislação Fundamental de Direito Penal — 1ª Ed. Vol. I</p><a href="https://apcriminologia.com/pt/img/magazines/Legislacao_Fundamental_de_Direito_Penal_Vol_I.pdf" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 mt-3 text-xs font-bold tracking-widest uppercase" style="color:#27AE60;" data-pt="Descarregar PDF →" data-en="Download PDF →">Descarregar PDF →</a></div></div>
+      <div class="reveal group" style="transition-delay:0.4s"><div style="position:relative; padding-bottom:140%; overflow:hidden; border-radius:2px; box-shadow:0 4px 20px rgba(0,0,0,0.12);"><img src="https://apcriminologia.com/pt/img/magazines/capa_f_v2.jpg" alt="Legislação Fundamental de Direito Penal 1ª Ed. Vol. II" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" /></div><div class="mt-3"><p class="text-xs font-bold tracking-widest uppercase mb-1" style="color:#C0392B;">Ago. 2020</p><p class="font-display font-semibold text-slate-900 leading-snug" style="font-size:0.95rem;">Legislação Fundamental de Direito Penal — 1ª Ed. Vol. II</p><a href="https://apcriminologia.com/pt/img/magazines/Legislacao_Fundamental_de_Direito_Penal_Vol_II.pdf" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 mt-3 text-xs font-bold tracking-widest uppercase" style="color:#27AE60;" data-pt="Descarregar PDF →" data-en="Download PDF →">Descarregar PDF →</a></div></div>
+    </div>
+  </div>
+</section>
+<footer style="background:#0d1620; border-top:1px solid rgba(255,255,255,0.05); padding:60px 0 32px;">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid md:grid-cols-4 gap-10 mb-12">
+      <div class="md:col-span-2">
+        <img src="logotopo.png" alt="APC" class="h-10 w-auto mb-5 brightness-95" />
+        <p class="text-white/40 text-sm leading-relaxed max-w-xs"
+           data-pt="&quot;Em prol da Criminologia, dos Criminólogos e da Justiça&quot; — Associação Portuguesa de Criminologia, fundada em 2011."
+           data-en="&quot;In Support of Criminology, Criminologists and Justice&quot; — Portuguese Association of Criminology, founded in 2011.">
+          "Em prol da Criminologia, dos Criminólogos e da Justiça" — Associação Portuguesa de Criminologia, fundada em 2011.
+        </p>
+      </div>
+      <div>
+        <p class="text-xs font-bold tracking-widest uppercase text-white/30 mb-4" data-pt="Navegação" data-en="Navigation">Navegação</p>
+        <div class="space-y-2">
+          <a href="index.html#sobre"     class="footer-link block" data-pt="Sobre a APC"         data-en="About APC">Sobre a APC</a>
+          <a href="conselho.html"        class="footer-link block" data-pt="Conselho Consultivo" data-en="Advisory Board">Conselho Consultivo</a>
+          <a href="noticias.html"        class="footer-link block" data-pt="Notícias"            data-en="News">Notícias</a>
+          <a href="publicacoes.html"     class="footer-link block" data-pt="Publicações"         data-en="Publications">Publicações</a>
+          <a href="eventos.html"         class="footer-link block" data-pt="Eventos"             data-en="Events">Eventos</a>
+          <a href="index.html#socios"    class="footer-link block" data-pt="Ser Sócio"           data-en="Membership">Ser Sócio</a>
+          <a href="index.html#contactos" class="footer-link block" data-pt="Contactos"           data-en="Contacts">Contactos</a>
+          <a href="http://apcriminologia.com/pdfs/estatutos_apc.pdf" target="_blank" rel="noopener" class="footer-link block" data-pt="Estatutos" data-en="Statutes">Estatutos</a>
+        </div>
+      </div>
+      <div>
+        <p class="text-xs font-bold tracking-widest uppercase text-white/30 mb-4" data-pt="Contacto" data-en="Contact">Contacto</p>
+        <div class="space-y-2">
+          <p class="footer-link text-xs">Av. Infante Dom Henrique, loja 3<br />4480-670 Vila do Conde</p>
+          <a href="mailto:apcriminologia@gmail.com" class="footer-link block text-xs hover:text-white">apcriminologia@gmail.com</a>
+          <p class="footer-link text-xs">+351 917 042 200</p>
+        </div>
+        <div class="flex gap-2 mt-5">
+          <a href="https://www.facebook.com/apcriminologia/" target="_blank" rel="noopener" class="footer-link hover:text-white">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/apcriminologia/" target="_blank" rel="noopener" class="footer-link hover:text-white">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:24px;">
+      <p class="text-white/25 text-xs" data-pt="© 2025 APC — Associação Portuguesa de Criminologia. Todos os direitos reservados." data-en="© 2025 APC — Portuguese Association of Criminology. All rights reserved.">
+        © 2025 APC — Associação Portuguesa de Criminologia. Todos os direitos reservados.
+      </p>
+    </div>
+  </div>
+</footer>
+<script>
+  const navbar = document.getElementById('navbar');
+  const mobileMenu = document.getElementById('mobile-menu');
+  document.getElementById('open-menu').addEventListener('click', () => { mobileMenu.classList.add('open'); document.body.style.overflow = 'hidden'; });
+  document.getElementById('close-menu').addEventListener('click', closeMobileMenu);
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileMenu));
+  function closeMobileMenu() { mobileMenu.classList.remove('open'); document.body.style.overflow = ''; }
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  setTimeout(() => { document.querySelectorAll('.reveal').forEach(el => { const r = el.getBoundingClientRect(); if (r.top < window.innerHeight) el.classList.add('visible'); }); }, 100);
+  let currentLang = 'pt';
+  function setLang(lang) {
+    currentLang = lang;
+    document.documentElement.setAttribute('data-lang', lang);
+    document.querySelectorAll('[data-pt]').forEach(el => { if (el.dataset[lang]) el.textContent = el.dataset[lang]; });
+    document.querySelectorAll('[data-pt-placeholder]').forEach(el => { if (el.dataset[lang + 'Placeholder']) el.placeholder = el.dataset[lang + 'Placeholder']; });
+    ['desk','mob'].forEach(prefix => {
+      const ptBtn = document.getElementById(prefix+'-pt');
+      const enBtn = document.getElementById(prefix+'-en');
+      if (!ptBtn || !enBtn) return;
+      ptBtn.classList.toggle('active', lang==='pt');
+      enBtn.classList.toggle('active', lang==='en');
+    });
+  }
+</script>
+</body>
+</html>

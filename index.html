@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="pt" data-lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>APC — Associação Portuguesa de Criminologia</title>
+  <meta name="description" content="A Associação Portuguesa de Criminologia representa e promove os profissionais de Criminologia em Portugal. Fundada em 2011, luta pelo reconhecimento da profissão e fomenta a investigação científica." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://apcriminologia.com/" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <meta name="theme-color" content="#111820" />
+
+  <!-- Open Graph (Google / social previews) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://apcriminologia.com/" />
+  <meta property="og:title" content="APC — Associação Portuguesa de Criminologia" />
+  <meta property="og:description" content="Representamos e promovemos os profissionais de Criminologia em Portugal desde 2011. Lei 70/2019 — profissão regulamentada." />
+  <meta property="og:image" content="android-chrome-512x512.png" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="APC — Associação Portuguesa de Criminologia" />
+  <meta name="twitter:image" content="android-chrome-192x192.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slate:  { DEFAULT: '#2C4A5C', 900: '#1a2a36', 800: '#243d4d', 700: '#2C4A5C', 600: '#3a5f75', 100: '#e8eff3' },
+            brand:  { red: '#C0392B', green: '#27AE60', dark: '#111820' },
+          },
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'serif'],
+            sans:    ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: #1a2a36; background: #fff; overflow-x: hidden; }
+    .font-display { font-family: 'Cormorant Garamond', serif; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #111820; }
+    ::-webkit-scrollbar-thumb { background: #C0392B; border-radius: 3px; }
+
+    /* ── Nav ── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      transition: background 0.4s, box-shadow 0.4s, backdrop-filter 0.4s;
+    }
+    #navbar.scrolled {
+      background: rgba(17,24,32,0.96);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .nav-link {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(255,255,255,0.75);
+      transition: color 0.2s;
+      padding: 0.25rem 0;
+      position: relative;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px;
+      background: #C0392B; transition: width 0.3s;
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-link:hover::after { width: 100%; }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      min-height: 100dvh;
+      background-image: url('background.png');
+      background-position: center center;
+      background-size: cover;
+      -webkit-background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: scroll;
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    @media (max-width: 768px) {
+      #hero {
+        background-image: url('Hero_mobile.jpg');
+        background-position: center top;
+      }
+    }
+    @keyframes pulse-line {
+      0%, 100% { opacity: 0.25; }
+      50% { opacity: 0.7; }
+    }
+    #hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(17,24,32,0.88) 0%,
+        rgba(26,42,54,0.75) 50%,
+        rgba(17,24,32,0.82) 100%
+      );
+    }
+    .hero-content { position: relative; z-index: 2; }
+    .hero-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.75rem);
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1.25;
+      color: #fff;
+      text-shadow: 0 2px 24px rgba(0,0,0,0.5);
+    }
+    .hero-tagline strong {
+      font-style: normal; font-weight: 600;
+      color: #fff;
+    }
+    .accent-line {
+      width: 60px; height: 3px;
+      background: linear-gradient(90deg, #C0392B, #27AE60);
+      border-radius: 2px;
+    }
+
+    /* ── Stats ── */
+    .stat-card {
+      border-left: 3px solid transparent;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .stat-card:hover { border-left-color: #C0392B; transform: translateX(4px); }
+
+    /* ── Section transitions ── */
+    .reveal {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── Cards ── */
+    .news-card {
+      background: #fff;
+      border: 1px solid #e8eff3;
+      border-radius: 2px;
+      overflow: hidden;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .news-card:hover {
+      box-shadow: 0 12px 40px rgba(44,74,92,0.12);
+      transform: translateY(-3px);
+    }
+    .news-card .card-tag {
+      display: inline-block;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 3px 8px;
+      border-radius: 1px;
+    }
+
+    /* ── Membership section ── */
+    .benefit-item::before {
+      content: '';
+      display: inline-block; width: 6px; height: 6px;
+      background: #27AE60; border-radius: 50%;
+      margin-right: 10px; flex-shrink: 0;
+      margin-top: 8px;
+    }
+
+    /* ── Objectives accordion ── */
+    .obj-item {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 12px 0;
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.6;
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .obj-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-weight: 600; color: #C0392B;
+      min-width: 24px;
+    }
+
+    /* ── Mobile menu ── */
+    #mobile-menu {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(17,24,32,0.98);
+      backdrop-filter: blur(20px);
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2rem;
+    }
+    #mobile-menu.open { transform: translateX(0); }
+    .mobile-nav-link {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 500; color: #fff;
+      text-decoration: none; transition: color 0.2s;
+    }
+    .mobile-nav-link:hover { color: #C0392B; }
+
+    /* ── Lang toggle ── */
+    .lang-btn {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+      padding: 4px 10px; border-radius: 1px;
+      transition: all 0.2s;
+      border: 1px solid rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.7);
+    }
+    .lang-btn.active {
+      background: #C0392B; border-color: #C0392B; color: #fff;
+    }
+
+    /* ── Footer ── */
+    .footer-link { color: rgba(255,255,255,0.5); font-size: 0.8rem; transition: color 0.2s; }
+    .footer-link:hover { color: #fff; }
+
+    /* ── Council cards ── */
+    .council-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+    @media (min-width: 640px) { .council-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 1024px) { .council-grid { grid-template-columns: repeat(5, 1fr); } }
+    .council-card {
+      text-align: center;
+      padding: 1.5rem 1rem 1.25rem;
+      background: #fff;
+      border: 1px solid #e8eff3;
+      border-radius: 2px;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .council-card:hover {
+      box-shadow: 0 8px 30px rgba(44,74,92,0.1);
+      transform: translateY(-3px);
+    }
+    .council-photo {
+      width: 88px; height: 88px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 12px;
+      display: block;
+      border: 3px solid #e8eff3;
+      transition: border-color 0.3s;
+    }
+    .council-card:hover .council-photo { border-color: #C0392B; }
+    .council-role {
+      font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: #C0392B; margin-bottom: 4px;
+    }
+    .council-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem; font-weight: 600;
+      color: #1a2a36; line-height: 1.3;
+    }
+
+    /* ── Section divider ── */
+    .section-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: #C0392B;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 600; line-height: 1.15;
+    }
+
+    /* ── Form ── */
+    .form-input {
+      width: 100%; padding: 12px 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #fff; font-size: 0.875rem;
+      border-radius: 2px;
+      outline: none; transition: border-color 0.2s;
+    }
+    .form-input::placeholder { color: rgba(255,255,255,0.35); }
+    .form-input:focus { border-color: #27AE60; }
+
+    /* ── Responsive helpers ── */
+    @media (max-width: 768px) {
+      .desktop-nav { display: none; }
+      .mobile-toggle { display: flex !important; }
+    }
+    @media (min-width: 769px) {
+      .mobile-toggle { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     MOBILE MENU
+════════════════════════════════════════════ -->
+<div id="mobile-menu" role="dialog" aria-modal="true">
+  <button id="close-menu" class="absolute top-6 right-6 text-white" aria-label="Fechar menu">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+  <a href="#sobre"    class="mobile-nav-link" data-pt="Sobre"        data-en="About">Sobre</a>
+  <a href="conselho.html" class="mobile-nav-link" data-pt="Conselho"     data-en="Advisory">Conselho</a>
+  <a href="noticias.html" class="mobile-nav-link" data-pt="Notícias"     data-en="News">Notícias</a>
+  <a href="#socios"   class="mobile-nav-link" data-pt="Ser Sócio"    data-en="Membership">Ser Sócio</a>
+  <a href="publicacoes.html" class="mobile-nav-link" data-pt="Publicações" data-en="Publications">Publicações</a>
+  <a href="eventos.html" class="mobile-nav-link" data-pt="Eventos"      data-en="Events">Eventos</a>
+  <a href="#contactos" class="mobile-nav-link" data-pt="Contactos"   data-en="Contacts">Contactos</a>
+  <div class="flex gap-2 mt-4">
+    <button onclick="setLang('pt')" class="lang-btn active" id="mob-pt">PT</button>
+    <button onclick="setLang('en')" class="lang-btn" id="mob-en">EN</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════ -->
+<nav id="navbar" aria-label="Navegação principal">
+  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16 lg:h-18">
+
+    <!-- Logo -->
+    <a href="#" class="flex-shrink-0">
+      <img src="logotopo.png" alt="APC — Associação Portuguesa de Criminologia" class="h-9 lg:h-10 w-auto brightness-110" />
+    </a>
+
+    <!-- Desktop nav -->
+    <div class="desktop-nav hidden md:flex items-center gap-6 lg:gap-8">
+      <a href="#sobre"     class="nav-link" data-pt="Sobre a APC"  data-en="About APC">Sobre a APC</a>
+      <a href="conselho.html" class="nav-link" data-pt="Conselho Consultivo" data-en="Advisory Board">Conselho Consultivo</a>
+      <a href="noticias.html" class="nav-link" data-pt="Notícias"     data-en="News">Notícias</a>
+      <a href="#socios"    class="nav-link" data-pt="Ser Sócio"    data-en="Membership">Ser Sócio</a>
+      <a href="publicacoes.html" class="nav-link" data-pt="Publicações"  data-en="Publications">Publicações</a>
+      <a href="eventos.html" class="nav-link" data-pt="Eventos"      data-en="Events">Eventos</a>
+      <a href="#contactos" class="nav-link" data-pt="Contactos"    data-en="Contacts">Contactos</a>
+    </div>
+
+    <!-- Right controls -->
+    <div class="flex items-center gap-3">
+      <div class="flex gap-1">
+        <button onclick="setLang('pt')" class="lang-btn active" id="desk-pt">PT</button>
+        <button onclick="setLang('en')" class="lang-btn" id="desk-en">EN</button>
+      </div>
+      <!-- Mobile hamburger -->
+      <button id="open-menu" class="mobile-toggle hidden text-white p-1 ml-2" aria-label="Abrir menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<section id="hero" aria-label="Página inicial">
+  <div class="hero-content w-full max-w-7xl mx-auto px-6 py-16 pt-28 flex flex-col lg:flex-row items-center justify-between gap-12">
+
+    <!-- Left: Text -->
+    <div class="w-full max-w-xl text-center lg:text-left">
+      <p class="section-label mb-5 reveal" data-pt="Associação Portuguesa de Criminologia" data-en="Portuguese Association of Criminology">
+        Associação Portuguesa de Criminologia
+      </p>
+      <h1 class="hero-tagline reveal" style="transition-delay:0.1s">
+        <span class="italic font-light" data-pt='"Em prol da Criminologia,' data-en='"In Support of Criminology,'>"Em prol da Criminologia,</span><br>
+        <span class="italic font-light" data-pt="dos Criminólogos" data-en="Criminologists">dos Criminólogos</span><br>
+        <strong data-pt='e da Justiça"' data-en='and Justice"'>e da Justiça"</strong>
+      </h1>
+      <div class="accent-line my-7 reveal mx-auto lg:mx-0" style="transition-delay:0.2s"></div>
+      <p class="text-white/70 text-base leading-relaxed reveal mb-8" style="transition-delay:0.3s"
+         data-pt="Fundada em 2011, a APC representa e promove os profissionais de Criminologia em Portugal, defendendo o reconhecimento da profissão e fomentando a investigação científica."
+         data-en="Founded in 2011, APC represents and promotes Criminology professionals in Portugal, advocating for professional recognition and fostering scientific research.">
+        Fundada em 2011, a APC representa e promove os profissionais de Criminologia em Portugal, defendendo o reconhecimento da profissão e fomentando a investigação científica.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-3 reveal" style="transition-delay:0.4s">
+        <a href="#sobre"
+           class="flex items-center justify-center gap-2 px-6 py-4 text-sm font-semibold text-white"
+           style="background:#C0392B; letter-spacing:0.05em; transition: background 0.2s;"
+           data-pt="Conhecer a APC" data-en="Discover APC">
+          Conhecer a APC
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#socios"
+           class="flex items-center justify-center gap-2 px-6 py-4 text-sm font-semibold"
+           style="border:1px solid rgba(255,255,255,0.35); color:#fff; letter-spacing:0.05em; transition: border-color 0.2s, background 0.2s;"
+           onmouseover="this.style.background='rgba(255,255,255,0.1)'"
+           onmouseout="this.style.background='transparent'"
+           data-pt="Tornar-me Sócio" data-en="Become a Member">
+          Tornar-me Sócio
+        </a>
+      </div>
+    </div>
+
+    <!-- Right: Badge -->
+    <div class="hidden lg:flex flex-col items-center gap-6 reveal" style="transition-delay:0.5s">
+      <div style="width:1px; height:80px; background:linear-gradient(to bottom, transparent, rgba(255,255,255,0.3));"></div>
+      <div class="text-center">
+        <p class="font-display text-7xl font-light text-white leading-none">14</p>
+        <p class="text-white/50 text-xs font-semibold tracking-widest uppercase mt-1" data-pt="Anos" data-en="Years">Anos</p>
+      </div>
+      <div style="width:1px; height:40px; background:rgba(255,255,255,0.15);"></div>
+      <div class="text-center">
+        <p class="font-display text-7xl font-light" style="color:#27AE60; line-height:1">VI</p>
+        <p class="text-white/50 text-xs font-semibold tracking-widest uppercase mt-1" data-pt="Congressos" data-en="Congresses">Congressos</p>
+      </div>
+      <div style="width:1px; height:80px; background:linear-gradient(to bottom, rgba(255,255,255,0.15), transparent);"></div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="reveal" style="position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:0.5rem; color:rgba(255,255,255,0.4); transition-delay:0.7s;">
+    <span style="font-size:0.7rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase;" data-pt="Explorar" data-en="Explore">Explorar</span>
+    <div style="width:1px; height:40px; background:rgba(255,255,255,0.3); animation:pulse-line 2s ease-in-out infinite;"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     STATS BAR
+════════════════════════════════════════════ -->
+<div style="background:#111820; border-bottom:1px solid rgba(255,255,255,0.06);">
+  <div class="max-w-7xl mx-auto px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-12">
+    <div class="stat-card pl-4 reveal">
+      <p class="font-display text-3xl font-semibold text-white">2011</p>
+      <p class="text-white/40 text-xs font-semibold tracking-widest uppercase mt-1" data-pt="Ano de Fundação" data-en="Founded">Ano de Fundação</p>
+    </div>
+    <div class="stat-card pl-4 reveal" style="transition-delay:0.1s">
+      <p class="font-display text-3xl font-semibold" style="color:#C0392B">Lei 70/2019</p>
+      <p class="text-white/40 text-xs font-semibold tracking-widest uppercase mt-1" data-pt="Profissão Regulamentada" data-en="Regulated Profession">Profissão Regulamentada</p>
+    </div>
+    <div class="stat-card pl-4 reveal" style="transition-delay:0.2s">
+      <p class="font-display text-3xl font-semibold text-white">VI</p>
+      <p class="text-white/40 text-xs font-semibold tracking-widest uppercase mt-1" data-pt="Congressos Nacionais" data-en="National Congresses">Congressos Nacionais</p>
+    </div>
+    <div class="stat-card pl-4 reveal" style="transition-delay:0.3s">
+      <p class="font-display text-3xl font-semibold" style="color:#27AE60">€2/mês</p>
+      <p class="text-white/40 text-xs font-semibold tracking-widest uppercase mt-1" data-pt="Quota Mensal" data-en="Monthly Fee">Quota Mensal</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SOBRE
+════════════════════════════════════════════ -->
+<section id="sobre" style="background:#f8f9fb; padding:100px 0;">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+
+      <!-- Left: Story -->
+      <div>
+        <p class="section-label mb-4 reveal" data-pt="Sobre a Associação" data-en="About the Association">Sobre a Associação</p>
+        <h2 class="section-title reveal mb-6" style="transition-delay:0.1s"
+            data-pt="Em prol da Criminologia e dos Criminólogos"
+            data-en="In Support of Criminology and Criminologists">
+          Em prol da Criminologia e dos Criminólogos
+        </h2>
+        <div class="accent-line mb-8 reveal" style="transition-delay:0.2s"></div>
+        <div class="space-y-5 text-slate-700 leading-relaxed reveal" style="transition-delay:0.3s; font-size:0.9375rem;">
+          <p data-pt="É sob o sentimento da falta de reconhecimento dos licenciados em Criminologia em Portugal que, por volta de Dezembro de 2011, cinco licenciados pelo ISMAI, UFP e FDUP começam a reunir informalmente para dar surgimento a uma Associação que representasse esta classe de profissionais e os que brevemente o seriam."
+             data-en="It was under the feeling of lack of recognition of Criminology graduates in Portugal that, around December 2011, five graduates from ISMAI, UFP, and FDUP began meeting informally to establish an Association that would represent this class of professionals.">
+            É sob o sentimento da falta de reconhecimento dos licenciados em Criminologia em Portugal que, por volta de Dezembro de 2011, cinco licenciados pelo ISMAI, UFP e FDUP começam a reunir informalmente para dar surgimento a uma Associação que representasse esta classe de profissionais e os que brevemente o seriam.
+          </p>
+          <p data-pt="Ao longo dos anos, a APC tem lutado pelo reconhecimento formal da profissão de Criminólogo, culminando na publicação da Lei 70/2019, de 2 de Setembro — um marco histórico que regulamenta oficialmente a profissão em Portugal."
+             data-en="Over the years, APC has fought for the formal recognition of the Criminologist profession, culminating in the publication of Law 70/2019 of September 2 — a historic milestone officially regulating the profession in Portugal.">
+            Ao longo dos anos, a APC tem lutado pelo reconhecimento formal da profissão de Criminólogo, culminando na publicação da Lei 70/2019, de 2 de Setembro — um marco histórico que regulamenta oficialmente a profissão em Portugal.
+          </p>
+          <div style="background:#fff; border:1px solid #e8eff3; border-left:3px solid #27AE60; padding:20px 24px; border-radius:0 2px 2px 0; display:flex; align-items:center; gap:18px;">
+            <img src="Conselho/image.png" alt="Miguel Silva" style="width:72px; height:72px; border-radius:50%; object-fit:cover; object-position:top center; flex-shrink:0; border:2px solid #e8eff3;" />
+            <div>
+              <p class="font-semibold text-slate-900 mb-1" style="font-size:0.875rem;" data-pt="Presidência" data-en="Presidency">Presidência</p>
+              <p class="font-display text-2xl font-semibold" style="color:#2C4A5C;">Miguel Silva</p>
+              <p class="text-sm text-slate-500 mt-1" data-pt="Presidente da APC" data-en="President of APC">Presidente da APC</p>
+            </div>
+          </div>
+          <div class="flex gap-4 pt-2">
+            <a href="https://www.facebook.com/apcriminologia/" target="_blank" rel="noopener"
+               class="flex items-center gap-2 text-sm font-semibold" style="color:#2C4A5C; transition:color 0.2s;"
+               onmouseover="this.style.color='#C0392B'" onmouseout="this.style.color='#2C4A5C'">
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              Facebook
+            </a>
+            <a href="https://www.instagram.com/apcriminologia/" target="_blank" rel="noopener"
+               class="flex items-center gap-2 text-sm font-semibold" style="color:#2C4A5C; transition:color 0.2s;"
+               onmouseover="this.style.color='#C0392B'" onmouseout="this.style.color='#2C4A5C'">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+              Instagram
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Objectives -->
+      <div class="reveal" style="transition-delay:0.2s">
+        <div style="background:#111820; border-radius:2px; padding:36px;">
+          <p class="text-xs font-bold tracking-widest uppercase mb-6" style="color:#C0392B;"
+             data-pt="Objetivos da APC" data-en="APC Objectives">Objetivos da APC</p>
+          <div class="space-y-0" id="objectives-list">
+            <div class="obj-item">
+              <span class="obj-num">01</span>
+              <span data-pt="Representar e promover a classe dos Licenciados em Criminologia nacional e internacionalmente."
+                    data-en="Represent and promote Criminology graduates nationally and internationally.">
+                Representar e promover a classe dos Licenciados em Criminologia nacional e internacionalmente.
+              </span>
+            </div>
+            <div class="obj-item">
+              <span class="obj-num">02</span>
+              <span data-pt="Encorajar a investigação científica e dinamizar a comunicação e os debates científicos."
+                    data-en="Encourage scientific research and promote scientific communication and debate.">
+                Encorajar a investigação científica e dinamizar a comunicação e os debates científicos.
+              </span>
+            </div>
+            <div class="obj-item">
+              <span class="obj-num">03</span>
+              <span data-pt="Divulgar junto das instituições relevantes a natureza e os contributos da Criminologia."
+                    data-en="Promote the nature and contributions of Criminology to relevant institutions.">
+                Divulgar junto das instituições relevantes a natureza e os contributos da Criminologia.
+              </span>
+            </div>
+            <div class="obj-item">
+              <span class="obj-num">04</span>
+              <span data-pt="Representar os associados junto das autoridades na procura da regulamentação profissional."
+                    data-en="Represent members before authorities in the pursuit of professional regulation.">
+                Representar os associados junto das autoridades na procura da regulamentação profissional.
+              </span>
+            </div>
+            <div class="obj-item">
+              <span class="obj-num">05</span>
+              <span data-pt="Organizar cursos, conferências e reuniões para a formação e valorização profissional."
+                    data-en="Organise courses, conferences, and meetings for professional training and development.">
+                Organizar cursos, conferências e reuniões para a formação e valorização profissional.
+              </span>
+            </div>
+            <div class="obj-item">
+              <span class="obj-num">06</span>
+              <span data-pt="Promover o intercâmbio de experiências com colegas de outros países e comunidades científicas."
+                    data-en="Promote the exchange of experiences with colleagues from other countries and scientific communities.">
+                Promover o intercâmbio de experiências com colegas de outros países e comunidades científicas.
+              </span>
+            </div>
+            <div class="obj-item">
+              <span class="obj-num">07</span>
+              <span data-pt="Filiar-se em organizações internacionais relativas à área da Criminologia."
+                    data-en="Affiliate with international organisations in the field of Criminology.">
+                Filiar-se em organizações internacionais relativas à área da Criminologia.
+              </span>
+            </div>
+          </div>
+          <a href="http://apcriminologia.com/pdfs/estatutos_apc.pdf" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 mt-6 text-xs font-bold tracking-widest uppercase"
+             style="color:#27AE60; transition:color 0.2s;"
+             onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#27AE60'"
+             data-pt="Ver Estatutos Completos →" data-en="View Full Statutes →">
+            Ver Estatutos Completos →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ACHIEVEMENT BANNER
+════════════════════════════════════════════ -->
+<div style="background:linear-gradient(135deg, #C0392B 0%, #96281b 100%); padding:60px 0;">
+  <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-8">
+    <div class="reveal">
+      <p class="text-xs font-bold tracking-widest uppercase text-white/60 mb-2" data-pt="Marco Histórico" data-en="Historic Milestone">Marco Histórico</p>
+      <h3 class="font-display text-3xl lg:text-4xl font-semibold text-white"
+          data-pt="Lei 70/2019 — Profissão de Criminólogo Regulamentada"
+          data-en="Law 70/2019 — Criminologist Profession Regulated">
+        Lei 70/2019 — Profissão de Criminólogo Regulamentada
+      </h3>
+      <p class="text-white/70 mt-2 text-sm max-w-xl"
+         data-pt="Em 2 de Setembro de 2019, foi publicada em Diário da República a lei que regulamenta a profissão de Criminólogo — o culminar de anos de trabalho e dedicação da APC."
+         data-en="On 2 September 2019, the law regulating the profession of Criminologist was published in the Official Gazette — the culmination of years of APC's work and dedication.">
+        Em 2 de Setembro de 2019, foi publicada em Diário da República a lei que regulamenta a profissão de Criminólogo — o culminar de anos de trabalho e dedicação da APC.
+      </p>
+    </div>
+    <div class="reveal flex-shrink-0" style="transition-delay:0.2s">
+      <div style="border:2px solid rgba(255,255,255,0.3); padding:24px 36px; text-align:center; border-radius:2px;">
+        <p class="font-display text-5xl font-light text-white">2019</p>
+        <p class="text-xs font-bold tracking-widest uppercase text-white/60 mt-1" data-pt="Aprovação em AR" data-en="Approved in Parliament">Aprovação em AR</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- ═══════════════════════════════════════════
+     SER SÓCIO
+════════════════════════════════════════════ -->
+<section id="socios" style="background:#111820; padding:100px 0;">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+      <!-- Left -->
+      <div>
+        <p class="section-label mb-4 reveal" data-pt="Associa-te" data-en="Join Us">Associa-te</p>
+        <h2 class="section-title reveal text-white mb-6" style="transition-delay:0.1s"
+            data-pt="Torna-te Sócio da APC" data-en="Become an APC Member">Torna-te Sócio da APC</h2>
+        <div class="accent-line mb-8 reveal" style="transition-delay:0.2s"></div>
+        <p class="text-white/60 leading-relaxed mb-8 reveal text-sm" style="transition-delay:0.3s"
+           data-pt="Ao tornares-te sócio da APC fazes parte de uma comunidade que luta pelo reconhecimento e valorização da Criminologia em Portugal. Junta-te a nós."
+           data-en="By becoming an APC member, you join a community that fights for the recognition and valorisation of Criminology in Portugal. Join us.">
+          Ao tornares-te sócio da APC fazes parte de uma comunidade que luta pelo reconhecimento e valorização da Criminologia em Portugal. Junta-te a nós.
+        </p>
+
+        <div class="space-y-4 mb-10 reveal" style="transition-delay:0.4s">
+          <div class="flex items-start gap-3">
+            <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:rgba(39,174,96,0.2); border:1px solid #27AE60;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#27AE60" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <p class="text-white/70 text-sm leading-relaxed" data-pt="Ser aluno da Licenciatura em Criminologia ou ser Licenciado na área" data-en="Be a Criminology student or degree holder">Ser aluno da Licenciatura em Criminologia ou ser Licenciado na área</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:rgba(39,174,96,0.2); border:1px solid #27AE60;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#27AE60" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <p class="text-white/70 text-sm leading-relaxed" data-pt="Quota mensal de apenas €2 — pagamento por transferência bancária ou débito direto" data-en="Monthly fee of just €2 — payment by bank transfer or direct debit">Quota mensal de apenas €2 — pagamento por transferência bancária ou débito direto</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:rgba(39,174,96,0.2); border:1px solid #27AE60;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#27AE60" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <p class="text-white/70 text-sm leading-relaxed" data-pt="Preencher o formulário de inscrição online e enviar documentação por email" data-en="Complete the online registration form and submit documentation by email">Preencher o formulário de inscrição online e enviar documentação por email</p>
+          </div>
+        </div>
+
+        <div class="reveal" style="transition-delay:0.5s">
+          <a href="https://v5.quotagest.pt/app/510222978/inscricao/e34a534697ba11ef" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 px-8 py-4 text-sm font-bold tracking-wider uppercase text-white"
+             style="background:#27AE60; letter-spacing:0.08em; transition:background 0.2s;"
+             onmouseover="this.style.background='#1e8449'" onmouseout="this.style.background='#27AE60'"
+             data-pt="Inscrição Online" data-en="Online Registration">
+            Inscrição Online
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: NIB card + benefits -->
+      <div class="reveal" style="transition-delay:0.2s">
+        <div style="border:1px solid rgba(255,255,255,0.1); border-radius:2px; overflow:hidden;">
+          <!-- NIB card -->
+          <div style="background:linear-gradient(135deg,#2C4A5C,#1a2a36); padding:32px 28px;">
+            <p class="text-xs font-bold tracking-widest uppercase text-white/40 mb-4" data-pt="Dados para Pagamento" data-en="Payment Details">Dados para Pagamento</p>
+            <p class="text-xs text-white/50 mb-1" data-pt="NIB para pagamento de cotas:" data-en="NIB for fee payment:">NIB para pagamento de cotas:</p>
+            <p class="font-display text-2xl font-semibold text-white tracking-wide">0036 0483 9910 6000 44969</p>
+            <div style="height:1px; background:rgba(255,255,255,0.1); margin:20px 0;"></div>
+            <p class="text-xs text-white/50 mb-1" data-pt="Débito direto:" data-en="Direct debit:">Débito direto:</p>
+            <p class="text-sm text-white/80" data-pt="Contacte-nos via email para configurar" data-en="Contact us via email to set up">Contacte-nos via email para configurar</p>
+            <a href="mailto:apcriminologia@gmail.com" class="text-sm font-semibold mt-1 block" style="color:#27AE60;">apcriminologia@gmail.com</a>
+          </div>
+          <!-- Document checklist -->
+          <div style="background:#0d1620; padding:28px;">
+            <p class="text-xs font-bold tracking-widest uppercase text-white/40 mb-4" data-pt="Documentação Necessária" data-en="Required Documentation">Documentação Necessária</p>
+            <div class="space-y-3">
+              <div class="flex items-center gap-3">
+                <div class="w-4 h-4 flex-shrink-0" style="border:1px solid rgba(255,255,255,0.2); border-radius:1px;"></div>
+                <p class="text-white/60 text-xs" data-pt="Boletim de inscrição do corrente ano letivo / Certificado de Licenciatura" data-en="Current academic year enrollment / Degree certificate">Boletim de inscrição do corrente ano letivo / Certificado de Licenciatura</p>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-4 h-4 flex-shrink-0" style="border:1px solid rgba(255,255,255,0.2); border-radius:1px;"></div>
+                <p class="text-white/60 text-xs" data-pt="Comprovativo de transferência bancária para pagamento de quotas" data-en="Bank transfer proof of fee payment">Comprovativo de transferência bancária para pagamento de quotas</p>
+              </div>
+              <div class="flex items-center gap-3">
+                <div class="w-4 h-4 flex-shrink-0" style="border:1px solid rgba(255,255,255,0.2); border-radius:1px;"></div>
+                <p class="text-white/60 text-xs" data-pt="Fotografia tipo passe" data-en="Passport-style photo">Fotografia tipo passe</p>
+              </div>
+            </div>
+            <p class="text-white/30 text-xs mt-4 leading-relaxed"
+               data-pt="Enviar todos os documentos para apcriminologia@gmail.com. A inscrição só fica validada após receção e confirmação de todos os documentos."
+               data-en="Send all documents to apcriminologia@gmail.com. Registration is only validated after receipt and confirmation of all documents.">
+              Enviar todos os documentos para apcriminologia@gmail.com. A inscrição só fica validada após receção e confirmação de todos os documentos.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CONTACTOS
+════════════════════════════════════════════ -->
+<section id="contactos" style="background:#fff; padding:100px 0;">
+  <div class="max-w-7xl mx-auto px-6">
+    <p class="section-label mb-4 reveal" data-pt="Fale Connosco" data-en="Get in Touch">Fale Connosco</p>
+    <h2 class="section-title reveal mb-12" style="transition-delay:0.1s"
+        data-pt="Contactos" data-en="Contacts">Contactos</h2>
+
+    <div class="grid lg:grid-cols-3 gap-8">
+
+      <!-- Contact info -->
+      <div class="lg:col-span-1 space-y-6">
+        <div class="reveal">
+          <div class="flex items-start gap-4">
+            <div style="width:40px; height:40px; background:#f8f9fb; border:1px solid #e8eff3; display:flex; align-items:center; justify-content:center; flex-shrink:0; border-radius:2px;">
+              <svg width="16" height="16" fill="none" stroke="#2C4A5C" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <p class="text-xs font-bold tracking-widest uppercase text-slate-400 mb-1" data-pt="Morada" data-en="Address">Morada</p>
+              <p class="text-sm text-slate-700 leading-relaxed">Av. Infante Dom Henrique, loja 3<br />(Lugar de Armazém de Apresto)<br />4480-670 Vila do Conde<br />Portugal</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal" style="transition-delay:0.1s">
+          <div class="flex items-start gap-4">
+            <div style="width:40px; height:40px; background:#f8f9fb; border:1px solid #e8eff3; display:flex; align-items:center; justify-content:center; flex-shrink:0; border-radius:2px;">
+              <svg width="16" height="16" fill="none" stroke="#2C4A5C" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <p class="text-xs font-bold tracking-widest uppercase text-slate-400 mb-1" data-pt="Email" data-en="Email">Email</p>
+              <a href="mailto:apcriminologia@gmail.com" class="text-sm font-semibold" style="color:#C0392B; transition:opacity 0.2s;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">apcriminologia@gmail.com</a>
+            </div>
+          </div>
+        </div>
+        <div class="reveal" style="transition-delay:0.2s">
+          <div class="flex items-start gap-4">
+            <div style="width:40px; height:40px; background:#f8f9fb; border:1px solid #e8eff3; display:flex; align-items:center; justify-content:center; flex-shrink:0; border-radius:2px;">
+              <svg width="16" height="16" fill="none" stroke="#2C4A5C" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div>
+              <p class="text-xs font-bold tracking-widest uppercase text-slate-400 mb-1" data-pt="Telefone" data-en="Phone">Telefone</p>
+              <p class="text-sm text-slate-700">+351 917 042 200</p>
+              <p class="text-sm text-slate-700">+351 960 115 665</p>
+              <p class="text-xs text-slate-400 mt-1" data-pt="(Chamada para rede móvel nacional)" data-en="(National mobile network call)">(Chamada para rede móvel nacional)</p>
+            </div>
+          </div>
+        </div>
+        <div class="reveal flex gap-3 pt-2" style="transition-delay:0.3s">
+          <a href="https://www.facebook.com/apcriminologia/" target="_blank" rel="noopener"
+             style="width:36px; height:36px; background:#111820; display:flex; align-items:center; justify-content:center; border-radius:2px; transition:background 0.2s;"
+             onmouseover="this.style.background='#C0392B'" onmouseout="this.style.background='#111820'">
+            <svg width="14" height="14" fill="white" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/apcriminologia/" target="_blank" rel="noopener"
+             style="width:36px; height:36px; background:#111820; display:flex; align-items:center; justify-content:center; border-radius:2px; transition:background 0.2s;"
+             onmouseover="this.style.background='#C0392B'" onmouseout="this.style.background='#111820'">
+            <svg width="14" height="14" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="white"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Contact form -->
+      <div class="lg:col-span-2 reveal" style="transition-delay:0.2s; background:#111820; padding:40px; border-radius:2px;">
+        <p class="text-white/60 text-sm mb-6" data-pt="Envie-nos uma mensagem" data-en="Send us a message">Envie-nos uma mensagem</p>
+        <form class="space-y-4" onsubmit="return false;">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="text-xs font-bold tracking-widest uppercase text-white/40 block mb-2" data-pt="Nome" data-en="Name">Nome</label>
+              <input type="text" class="form-input" placeholder="O seu nome" data-pt-placeholder="O seu nome" data-en-placeholder="Your name" />
+            </div>
+            <div>
+              <label class="text-xs font-bold tracking-widest uppercase text-white/40 block mb-2" data-pt="Email" data-en="Email">Email</label>
+              <input type="email" class="form-input" placeholder="email@exemplo.com" />
+            </div>
+          </div>
+          <div>
+            <label class="text-xs font-bold tracking-widest uppercase text-white/40 block mb-2" data-pt="Assunto" data-en="Subject">Assunto</label>
+            <input type="text" class="form-input" placeholder="Assunto da mensagem" data-pt-placeholder="Assunto da mensagem" data-en-placeholder="Message subject" />
+          </div>
+          <div>
+            <label class="text-xs font-bold tracking-widest uppercase text-white/40 block mb-2" data-pt="Mensagem" data-en="Message">Mensagem</label>
+            <textarea class="form-input" rows="5" placeholder="A sua mensagem..." data-pt-placeholder="A sua mensagem..." data-en-placeholder="Your message..."></textarea>
+          </div>
+          <button type="submit" class="w-full py-3 text-sm font-bold tracking-widest uppercase text-white"
+                  style="background:#C0392B; transition:background 0.2s; border-radius:2px;"
+                  onmouseover="this.style.background='#96281b'" onmouseout="this.style.background='#C0392B'"
+                  data-pt="Enviar Mensagem" data-en="Send Message">
+            Enviar Mensagem
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer style="background:#0d1620; border-top:1px solid rgba(255,255,255,0.05); padding:60px 0 32px;">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid md:grid-cols-4 gap-10 mb-12">
+
+      <div class="md:col-span-2">
+        <img src="logotopo.png" alt="APC" class="h-10 w-auto mb-5 brightness-95" />
+        <p class="text-white/40 text-sm leading-relaxed max-w-xs"
+           data-pt="&quot;Em prol da Criminologia, dos Criminólogos e da Justiça&quot; — Associação Portuguesa de Criminologia, fundada em 2011."
+           data-en="&quot;In Support of Criminology, Criminologists and Justice&quot; — Portuguese Association of Criminology, founded in 2011.">
+          "Em prol da Criminologia, dos Criminólogos e da Justiça" — Associação Portuguesa de Criminologia, fundada em 2011.
+        </p>
+      </div>
+
+      <div>
+        <p class="text-xs font-bold tracking-widest uppercase text-white/30 mb-4" data-pt="Navegação" data-en="Navigation">Navegação</p>
+        <div class="space-y-2">
+          <a href="#sobre"     class="footer-link block" data-pt="Sobre a APC"    data-en="About APC">Sobre a APC</a>
+          <a href="conselho.html" class="footer-link block" data-pt="Conselho Consultivo" data-en="Advisory Board">Conselho Consultivo</a>
+          <a href="noticias.html" class="footer-link block" data-pt="Notícias"       data-en="News">Notícias</a>
+          <a href="#socios"    class="footer-link block" data-pt="Ser Sócio"      data-en="Membership">Ser Sócio</a>
+          <a href="#publicacoes" class="footer-link block" data-pt="Publicações"    data-en="Publications">Publicações</a>
+          <a href="eventos.html" class="footer-link block" data-pt="Eventos"        data-en="Events">Eventos</a>
+          <a href="#contactos" class="footer-link block" data-pt="Contactos"      data-en="Contacts">Contactos</a>
+          <a href="http://apcriminologia.com/pdfs/estatutos_apc.pdf" target="_blank" rel="noopener" class="footer-link block" data-pt="Estatutos" data-en="Statutes">Estatutos</a>
+        </div>
+      </div>
+
+      <div>
+        <p class="text-xs font-bold tracking-widest uppercase text-white/30 mb-4" data-pt="Contacto" data-en="Contact">Contacto</p>
+        <div class="space-y-2">
+          <p class="footer-link text-xs">Av. Infante Dom Henrique, loja 3<br />4480-670 Vila do Conde</p>
+          <a href="mailto:apcriminologia@gmail.com" class="footer-link block text-xs hover:text-white" style="color:rgba(255,255,255,0.5);">apcriminologia@gmail.com</a>
+          <p class="footer-link text-xs">+351 917 042 200</p>
+        </div>
+        <div class="flex gap-2 mt-5">
+          <a href="https://www.facebook.com/apcriminologia/" target="_blank" rel="noopener" class="footer-link hover:text-white">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/apcriminologia/" target="_blank" rel="noopener" class="footer-link hover:text-white">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:24px; display:flex; flex-direction:column; gap:8px;" class="sm:flex-row sm:justify-between sm:items-center">
+      <p class="text-white/25 text-xs" data-pt="© 2025 APC — Associação Portuguesa de Criminologia. Todos os direitos reservados." data-en="© 2025 APC — Portuguese Association of Criminology. All rights reserved.">
+        © 2025 APC — Associação Portuguesa de Criminologia. Todos os direitos reservados.
+      </p>
+      <a href="politica-privacidade.html" class="footer-link text-xs" style="color:rgba(255,255,255,0.3);"
+         data-pt="Política de Privacidade" data-en="Privacy Policy">Política de Privacidade</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════ -->
+<script>
+  // ── Navbar scroll ──
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // ── Mobile menu ──
+  const mobileMenu = document.getElementById('mobile-menu');
+  document.getElementById('open-menu').addEventListener('click', () => {
+    mobileMenu.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+  document.getElementById('close-menu').addEventListener('click', closeMobileMenu);
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileMenu));
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ── Reveal on scroll ──
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // ── Language toggle ──
+  let currentLang = 'pt';
+  function setLang(lang) {
+    currentLang = lang;
+    document.documentElement.setAttribute('data-lang', lang);
+
+    // Text nodes
+    document.querySelectorAll('[data-pt]').forEach(el => {
+      if (el.dataset[lang]) el.textContent = el.dataset[lang];
+    });
+
+    // Placeholders
+    document.querySelectorAll('[data-pt-placeholder]').forEach(el => {
+      if (el.dataset[lang + 'Placeholder']) el.placeholder = el.dataset[lang + 'Placeholder'];
+    });
+
+    // Button states
+    ['desk', 'mob'].forEach(prefix => {
+      const ptBtn = document.getElementById(prefix + '-pt');
+      const enBtn = document.getElementById(prefix + '-en');
+      if (!ptBtn || !enBtn) return;
+      ptBtn.classList.toggle('active', lang === 'pt');
+      enBtn.classList.toggle('active', lang === 'en');
+    });
+  }
+
+  // Initial reveal for hero content
+  setTimeout(() => {
+    document.querySelectorAll('#hero .reveal').forEach(el => el.classList.add('visible'));
+  }, 100);
+</script>
+</body>
+</html>
