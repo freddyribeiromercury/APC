@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="pt" data-lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocolos — APC</title>
+  <meta name="description" content="Protocolos e parcerias da Associação Portuguesa de Criminologia — benefícios exclusivos para sócios nas áreas de saúde, formação, segurança e muito mais." />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <meta name="theme-color" content="#111820" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slate:  { DEFAULT: '#2C4A5C', 900: '#1a2a36', 800: '#243d4d', 700: '#2C4A5C', 600: '#3a5f75', 100: '#e8eff3' },
+            brand:  { red: '#C0392B', green: '#27AE60', dark: '#111820' },
+          },
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'serif'],
+            sans:    ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: #111820; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: #1a2a36; background: #fff; overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #111820; }
+    ::-webkit-scrollbar-thumb { background: #C0392B; border-radius: 3px; }
+
+    /* ── Navbar ── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(17,24,32,0.96); backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .nav-link {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(255,255,255,0.75);
+      transition: color 0.2s; padding: 0.25rem 0; position: relative;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px;
+      background: #C0392B; transition: width 0.3s;
+    }
+    .nav-link:hover, .nav-link.active { color: #fff; }
+    .nav-link.active::after, .nav-link:hover::after { width: 100%; }
+
+    /* ── Reveal ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── Utilities ── */
+    .accent-line { width: 60px; height: 3px; background: linear-gradient(90deg, #C0392B, #27AE60); border-radius: 2px; }
+    .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #C0392B; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; line-height: 1.15; }
+
+    /* ── Lang toggle ── */
+    .lang-btn { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 1px; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.7); }
+    .lang-btn.active { background: #C0392B; border-color: #C0392B; color: #fff; }
+
+    /* ── Footer ── */
+    .footer-link { color: rgba(255,255,255,0.5); font-size: 0.8rem; transition: color 0.2s; }
+    .footer-link:hover { color: #fff; }
+
+    /* ── Mobile menu ── */
+    #mobile-menu { position: fixed; inset: 0; z-index: 200; background: rgba(17,24,32,0.98); backdrop-filter: blur(20px); transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; }
+    #mobile-menu.open { transform: translateX(0); }
+    .mobile-nav-link { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 500; color: #fff; text-decoration: none; transition: color 0.2s; }
+    .mobile-nav-link:hover { color: #C0392B; }
+    @media (max-width: 768px) { .desktop-nav { display: none; } .mobile-toggle { display: flex !important; } }
+    @media (min-width: 769px) { .mobile-toggle { display: none !important; } }
+
+    /* ── Protocol cards ── */
+    .protocol-card {
+      background: #fff;
+      border: 1px solid #e8eff3;
+      border-radius: 2px;
+      overflow: hidden;
+      transition: box-shadow 0.3s, transform 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .protocol-card:hover {
+      box-shadow: 0 12px 40px rgba(44,74,92,0.12);
+      transform: translateY(-4px);
+    }
+    .protocol-logo-wrap {
+      background: #f8f9fb;
+      border-bottom: 1px solid #e8eff3;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .protocol-logo-wrap img {
+      max-height: 72px;
+      max-width: 100%;
+      object-fit: contain;
+      filter: grayscale(15%);
+      transition: filter 0.3s;
+    }
+    .protocol-card:hover .protocol-logo-wrap img { filter: grayscale(0%); }
+    .protocol-logo-fallback {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #2C4A5C;
+      letter-spacing: -0.02em;
+    }
+    .protocol-body { padding: 22px 24px; flex: 1; display: flex; flex-direction: column; }
+    .protocol-category {
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 3px 8px; border-radius: 1px;
+      display: inline-block; width: fit-content; margin-bottom: 12px;
+    }
+    .protocol-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 600;
+      color: #1a2a36; line-height: 1.25;
+      margin-bottom: 14px;
+    }
+    .protocol-benefits { list-style: none; padding: 0; margin: 0; flex: 1; }
+    .protocol-benefits li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.8125rem;
+      color: #4a6577;
+      padding: 6px 0;
+      border-bottom: 1px solid #f0f4f7;
+      line-height: 1.4;
+    }
+    .protocol-benefits li:last-child { border-bottom: none; }
+    .benefit-pct {
+      font-weight: 700;
+      min-width: 42px;
+      flex-shrink: 0;
+      font-size: 0.875rem;
+    }
+
+    /* ── Category section header ── */
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .cat-bar { width: 3px; height: 22px; border-radius: 2px; flex-shrink: 0; }
+    .cat-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     MOBILE MENU
+════════════════════════════════════════════ -->
+<div id="mobile-menu" role="dialog" aria-modal="true">
+  <button id="close-menu" class="absolute top-6 right-6 text-white" aria-label="Fechar menu">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+  <a href="index.html#sobre"    class="mobile-nav-link" data-pt="Sobre"        data-en="About">Sobre</a>
+  <a href="conselho.html"       class="mobile-nav-link" data-pt="Conselho"     data-en="Advisory">Conselho</a>
+  <a href="noticias.html"       class="mobile-nav-link" data-pt="Notícias"     data-en="News">Notícias</a>
+  <a href="index.html#socios"   class="mobile-nav-link" data-pt="Ser Sócio"    data-en="Membership">Ser Sócio</a>
+  <a href="publicacoes.html"    class="mobile-nav-link" data-pt="Publicações"  data-en="Publications">Publicações</a>
+  <a href="eventos.html"        class="mobile-nav-link" data-pt="Eventos"      data-en="Events">Eventos</a>
+  <a href="protocolos.html"     class="mobile-nav-link" data-pt="Protocolos"   data-en="Protocols">Protocolos</a>
+  <a href="index.html#contactos" class="mobile-nav-link" data-pt="Contactos"  data-en="Contacts">Contactos</a>
+  <div class="flex gap-2 mt-4">
+    <button onclick="setLang('pt')" class="lang-btn active" id="mob-pt">PT</button>
+    <button onclick="setLang('en')" class="lang-btn" id="mob-en">EN</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     NAVBAR
+════════════════════════════════════════════ -->
+<nav id="navbar" aria-label="Navegação principal">
+  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16 lg:h-18">
+    <a href="index.html" class="flex-shrink-0">
+      <img src="logotopo.png" alt="APC — Associação Portuguesa de Criminologia" class="h-9 lg:h-10 w-auto brightness-110" />
+    </a>
+    <div class="desktop-nav hidden md:flex items-center gap-5 lg:gap-7">
+      <a href="index.html#sobre"    class="nav-link" data-pt="Sobre a APC"           data-en="About APC">Sobre a APC</a>
+      <a href="conselho.html"       class="nav-link" data-pt="Conselho Consultivo"    data-en="Advisory Board">Conselho Consultivo</a>
+      <a href="noticias.html"       class="nav-link" data-pt="Notícias"              data-en="News">Notícias</a>
+      <a href="index.html#socios"   class="nav-link" data-pt="Ser Sócio"             data-en="Membership">Ser Sócio</a>
+      <a href="publicacoes.html"    class="nav-link" data-pt="Publicações"           data-en="Publications">Publicações</a>
+      <a href="eventos.html"        class="nav-link" data-pt="Eventos"               data-en="Events">Eventos</a>
+      <a href="protocolos.html"     class="nav-link active" data-pt="Protocolos"     data-en="Protocols">Protocolos</a>
+      <a href="index.html#contactos" class="nav-link" data-pt="Contactos"            data-en="Contacts">Contactos</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="flex gap-1">
+        <button onclick="setLang('pt')" class="lang-btn active" id="desk-pt">PT</button>
+        <button onclick="setLang('en')" class="lang-btn" id="desk-en">EN</button>
+      </div>
+      <button id="open-menu" class="mobile-toggle hidden text-white p-1 ml-2" aria-label="Abrir menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════
+     PAGE HERO
+════════════════════════════════════════════ -->
+<div style="background:#111820; padding:130px 0 60px; position:relative; overflow:hidden;">
+  <div style="position:absolute; inset:0; background:linear-gradient(135deg,rgba(192,57,43,0.07) 0%,transparent 60%);"></div>
+  <div class="max-w-7xl mx-auto px-6" style="position:relative; z-index:1; padding-bottom:20px;">
+    <a href="index.html"
+       style="display:inline-flex; align-items:center; gap:6px; color:rgba(255,255,255,0.45); font-size:0.72rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; transition:color 0.2s;"
+       onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      <span data-pt="Início" data-en="Home">Início</span>
+    </a>
+  </div>
+  <div class="max-w-7xl mx-auto px-6" style="position:relative; z-index:1;">
+    <p class="section-label reveal" data-pt="Benefícios para Sócios" data-en="Member Benefits">Benefícios para Sócios</p>
+    <h1 class="section-title reveal text-white mt-3 mb-5" style="transition-delay:0.1s"
+        data-pt="Protocolos e Parcerias" data-en="Protocols & Partnerships">Protocolos e Parcerias</h1>
+    <div class="accent-line reveal" style="transition-delay:0.2s"></div>
+    <p class="text-white/50 text-sm leading-relaxed mt-6 max-w-xl reveal" style="transition-delay:0.3s;"
+       data-pt="Condições preferenciais exclusivas para sócios APC com cartão de membro válido e quotas em dia."
+       data-en="Exclusive preferential conditions for APC members with a valid member card and up-to-date fees.">
+      Condições preferenciais exclusivas para sócios APC com cartão de membro válido e quotas em dia.
+    </p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PROTOCOLOS
+════════════════════════════════════════════ -->
+<section style="background:#f8f9fb; padding:80px 0 100px;">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <!-- ── Saúde & Bem-Estar ── -->
+    <div class="mb-16">
+      <div class="cat-header reveal">
+        <div class="cat-bar" style="background:#27AE60;"></div>
+        <span class="cat-label" style="color:#27AE60;" data-pt="Saúde & Bem-Estar" data-en="Health & Wellness">Saúde & Bem-Estar</span>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+
+        <!-- Ana Sofia Silva -->
+        <div class="protocol-card reveal">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #27AE60;">
+            <img src="Protocolos/ana-sofia-silva.png" alt="Ana Sofia Silva"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">ASS</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#edf9f2; color:#27AE60;"
+                  data-pt="Saúde & Bem-Estar" data-en="Health & Wellness">Saúde & Bem-Estar</span>
+            <p class="protocol-name">Ana Sofia Silva</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#27AE60;">5%</span><span data-pt="Tratamentos de fisioterapia (lesões)" data-en="Physiotherapy treatments (injuries)">Tratamentos de fisioterapia (lesões)</span></li>
+              <li><span class="benefit-pct" style="color:#27AE60;">10%</span><span data-pt="Massagens" data-en="Massages">Massagens</span></li>
+              <li><span class="benefit-pct" style="color:#27AE60;">15%</span><span data-pt="Fisioterapia estética" data-en="Aesthetic physiotherapy">Fisioterapia estética</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Euracini Ópticas / Q'Olhar Óptica -->
+        <div class="protocol-card reveal" style="transition-delay:0.05s">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #27AE60;">
+            <img src="Protocolos/euracini-opticas.png" alt="Euracini Ópticas"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">EO</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#edf9f2; color:#27AE60;"
+                  data-pt="Saúde & Bem-Estar" data-en="Health & Wellness">Saúde & Bem-Estar</span>
+            <p class="protocol-name">Euracini Ópticas / Q'Olhar Óptica</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#27AE60;">10%</span><span data-pt="Armações, óculos e lentes óticas" data-en="Frames, glasses and optical lenses">Armações, óculos e lentes óticas</span></li>
+              <li><span class="benefit-pct" style="color:#27AE60;">10%</span><span data-pt="Lentes de contacto e aparelhos auditivos" data-en="Contact lenses and hearing aids">Lentes de contacto e aparelhos auditivos</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Psique+Mais -->
+        <div class="protocol-card reveal" style="transition-delay:0.1s">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #27AE60;">
+            <img src="Protocolos/psique-mais.png" alt="Psique+Mais"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">P+</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#edf9f2; color:#27AE60;"
+                  data-pt="Saúde Mental" data-en="Mental Health">Saúde Mental</span>
+            <p class="protocol-name">Psique+Mais</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#27AE60;">10%</span><span data-pt="Sócios APC e família direta" data-en="APC members and immediate family">Sócios APC e família direta</span></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Formação & Educação ── -->
+    <div class="mb-16">
+      <div class="cat-header reveal">
+        <div class="cat-bar" style="background:#2C4A5C;"></div>
+        <span class="cat-label" style="color:#2C4A5C;" data-pt="Formação & Educação" data-en="Training & Education">Formação & Educação</span>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+
+        <!-- Centro de Formação Comenius -->
+        <div class="protocol-card reveal">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #2C4A5C;">
+            <img src="Protocolos/comenius.png" alt="Centro de Formação Comenius"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">CFC</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#e8eff3; color:#2C4A5C;"
+                  data-pt="Formação" data-en="Training">Formação</span>
+            <p class="protocol-name">Centro de Formação Comenius</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#2C4A5C;">15%</span><span data-pt="Formação Pedagógica Inicial para Formadores" data-en="Initial Pedagogical Training for Trainers">Formação Pedagógica Inicial para Formadores</span></li>
+              <li><span class="benefit-pct" style="color:#2C4A5C;">10%</span><span data-pt="Restantes formações" data-en="Other training courses">Restantes formações</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Centro de Formação Competências -->
+        <div class="protocol-card reveal" style="transition-delay:0.05s">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #2C4A5C;">
+            <img src="Protocolos/competencias.png" alt="Centro de Formação Competências"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">CFC</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#e8eff3; color:#2C4A5C;"
+                  data-pt="Formação" data-en="Training">Formação</span>
+            <p class="protocol-name">Centro de Formação Competências</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#2C4A5C;">20%</span><span data-pt="Desconto em toda a formação" data-en="All training courses">Desconto em toda a formação</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Instituto Português de Psicologia -->
+        <div class="protocol-card reveal" style="transition-delay:0.1s">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #2C4A5C;">
+            <img src="Protocolos/ipp.png" alt="Instituto Português de Psicologia"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">IPP</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#e8eff3; color:#2C4A5C;"
+                  data-pt="Formação" data-en="Training">Formação</span>
+            <p class="protocol-name">Instituto Português de Psicologia</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#2C4A5C;">15%</span><span data-pt="Toda a formação disponível" data-en="All available training">Toda a formação disponível</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- RED APPLE -->
+        <div class="protocol-card reveal" style="transition-delay:0.15s">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #2C4A5C;">
+            <img src="Protocolos/red-apple.png" alt="RED APPLE"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">RA</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#e8eff3; color:#2C4A5C;"
+                  data-pt="Formação" data-en="Training">Formação</span>
+            <p class="protocol-name">RED APPLE</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#2C4A5C;">10%</span><span data-pt="Workshops" data-en="Workshops">Workshops</span></li>
+              <li><span class="benefit-pct" style="color:#2C4A5C;">15%</span><span data-pt="Restantes cursos" data-en="Other courses">Restantes cursos</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Webstudy -->
+        <div class="protocol-card reveal" style="transition-delay:0.05s">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #2C4A5C;">
+            <img src="Protocolos/webstudy.png" alt="Webstudy"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">WS</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#e8eff3; color:#2C4A5C;"
+                  data-pt="Formação Online" data-en="Online Training">Formação Online</span>
+            <p class="protocol-name">Webstudy</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#2C4A5C;">15%</span><span data-pt="Desconto para sócios APC" data-en="Discount for APC members">Desconto para sócios APC</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ENA Business School -->
+        <div class="protocol-card reveal" style="transition-delay:0.1s">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #2C4A5C;">
+            <img src="Protocolos/ena.png" alt="ENA Business School"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">ENA</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#e8eff3; color:#2C4A5C;"
+                  data-pt="Escola de Negócios" data-en="Business School">Escola de Negócios</span>
+            <p class="protocol-name">ENA — Business School</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#2C4A5C;">15%</span><span data-pt="Certificado de Competências Pedagógicas" data-en="Pedagogical Competencies Certificate">Certificado de Competências Pedagógicas</span></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Segurança & Defesa ── -->
+    <div class="mb-16">
+      <div class="cat-header reveal">
+        <div class="cat-bar" style="background:#C0392B;"></div>
+        <span class="cat-label" style="color:#C0392B;" data-pt="Segurança & Defesa" data-en="Security & Defence">Segurança & Defesa</span>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+
+        <!-- SSD Defesa Pessoal -->
+        <div class="protocol-card reveal">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #C0392B;">
+            <img src="Protocolos/ssd.png" alt="SSD Defesa Pessoal"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">SSD</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#fdf2f1; color:#C0392B;"
+                  data-pt="Defesa Pessoal" data-en="Personal Defence">Defesa Pessoal</span>
+            <p class="protocol-name">SSD Defesa Pessoal</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#C0392B;">Isento</span><span data-pt="Taxa de inscrição" data-en="Enrollment fee">Taxa de inscrição</span></li>
+              <li><span class="benefit-pct" style="color:#C0392B;">30%</span><span data-pt="Mensalidade" data-en="Monthly fee">Mensalidade</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- L.O.A.D.S -->
+        <div class="protocol-card reveal" style="transition-delay:0.05s">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #C0392B;">
+            <img src="Protocolos/loads.png" alt="L.O.A.D.S"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">LOADS</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#fdf2f1; color:#C0392B;"
+                  data-pt="Segurança" data-en="Security">Segurança</span>
+            <p class="protocol-name">L.O.A.D.S</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#C0392B;">15%</span><span data-pt="Inscrição" data-en="Enrollment">Inscrição</span></li>
+              <li><span class="benefit-pct" style="color:#C0392B;">20%</span><span data-pt="Atividades extra" data-en="Extra activities">Atividades extra</span></li>
+              <li><span class="benefit-pct" style="color:#C0392B;">5%</span><span data-pt="Equipamento" data-en="Equipment">Equipamento</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- RedSWAT -->
+        <div class="protocol-card reveal" style="transition-delay:0.1s">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #C0392B;">
+            <img src="Protocolos/redswat.png" alt="RedSWAT"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">RS</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#fdf2f1; color:#C0392B;"
+                  data-pt="Formação Tática" data-en="Tactical Training">Formação Tática</span>
+            <p class="protocol-name">RedSWAT</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#C0392B;">15%</span><span data-pt="Desconto em formação" data-en="Training discount">Desconto em formação</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Raven -->
+        <div class="protocol-card reveal" style="transition-delay:0.15s">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #C0392B;">
+            <img src="Protocolos/raven.png" alt="Raven"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">RVN</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#fdf2f1; color:#C0392B;"
+                  data-pt="Academia de Segurança" data-en="Security Academy">Academia de Segurança</span>
+            <p class="protocol-name">Raven</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#C0392B; min-width:auto; margin-right:6px;">—</span><span data-pt="Condições preferenciais para sócios APC" data-en="Preferential conditions for APC members">Condições preferenciais para sócios APC</span></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Outros Serviços ── -->
+    <div class="mb-16">
+      <div class="cat-header reveal">
+        <div class="cat-bar" style="background:#6B7280;"></div>
+        <span class="cat-label" style="color:#6B7280;" data-pt="Outros Serviços" data-en="Other Services">Outros Serviços</span>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+
+        <!-- Mercado das Viagens -->
+        <div class="protocol-card reveal">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #6B7280;">
+            <img src="Protocolos/mercado-das-viagens.png" alt="Mercado das Viagens"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">MV</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#f3f4f6; color:#6B7280;"
+                  data-pt="Agência de Viagens" data-en="Travel Agency">Agência de Viagens</span>
+            <p class="protocol-name">Mercado das Viagens</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#6B7280;">7,5%</span><span data-pt="Pacotes turísticos" data-en="Tourist packages">Pacotes turísticos</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Alambique Hotel Resort & Spa -->
+        <div class="protocol-card reveal" style="transition-delay:0.05s">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #6B7280;">
+            <img src="Protocolos/alambique.png" alt="Alambique Hotel Resort & Spa"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">AH</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#f3f4f6; color:#6B7280;"
+                  data-pt="Alojamento & Spa" data-en="Accommodation & Spa">Alojamento & Spa</span>
+            <p class="protocol-name">Alambique Hotel Resort & Spa</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#6B7280; min-width:auto; margin-right:6px;">—</span><span data-pt="Descontos com apresentação de cartão de membro" data-en="Discounts upon presentation of member card">Descontos com apresentação de cartão de membro</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- MDC Psicologia & Formação -->
+        <div class="protocol-card reveal" style="transition-delay:0.1s">
+          <div class="protocol-logo-wrap" style="border-top: 3px solid #6B7280;">
+            <img src="Protocolos/mdc.png" alt="MDC Psicologia & Formação"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <span class="protocol-logo-fallback" style="display:none;">MDC</span>
+          </div>
+          <div class="protocol-body">
+            <span class="protocol-category" style="background:#f3f4f6; color:#6B7280;"
+                  data-pt="Psicologia & Formação" data-en="Psychology & Training">Psicologia & Formação</span>
+            <p class="protocol-name">MDC Psicologia & Formação</p>
+            <ul class="protocol-benefits">
+              <li><span class="benefit-pct" style="color:#6B7280;">20%</span><span data-pt="Cursos" data-en="Courses">Cursos</span></li>
+              <li><span class="benefit-pct" style="color:#6B7280;">10%</span><span data-pt="Consultas" data-en="Consultations">Consultas</span></li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Nota informativa + CTA ── -->
+    <div class="reveal" style="background:#111820; border-radius:2px; padding:32px 36px; display:flex; flex-wrap:wrap; gap:20px; align-items:center; justify-content:space-between;">
+      <div style="display:flex; align-items:flex-start; gap:12px; max-width:560px;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#27AE60" stroke-width="2" style="flex-shrink:0; margin-top:2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p class="text-sm leading-relaxed" style="color:rgba(255,255,255,0.55);"
+           data-pt="Benefícios exclusivos para sócios APC com cartão de membro válido e quotas em dia. Os descontos não são cumulativos com outras promoções em vigor."
+           data-en="Exclusive benefits for APC members with a valid member card and up-to-date fees. Discounts are not cumulative with other ongoing promotions.">
+          Benefícios exclusivos para sócios APC com cartão de membro válido e quotas em dia. Os descontos não são cumulativos com outras promoções em vigor.
+        </p>
+      </div>
+      <a href="index.html#socios"
+         class="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold tracking-wider uppercase text-white flex-shrink-0"
+         style="background:#C0392B; letter-spacing:0.08em; transition:background 0.2s; border-radius:2px;"
+         onmouseover="this.style.background='#96281b'" onmouseout="this.style.background='#C0392B'"
+         data-pt="Tornar-me Sócio" data-en="Become a Member">
+        Tornar-me Sócio
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer style="background:#0d1620; border-top:1px solid rgba(255,255,255,0.05); padding:60px 0 32px;">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid md:grid-cols-4 gap-10 mb-12">
+      <div class="md:col-span-2">
+        <img src="logotopo.png" alt="APC" class="h-10 w-auto mb-5 brightness-95" />
+        <p class="text-white/40 text-sm leading-relaxed max-w-xs"
+           data-pt="&quot;Em prol da Criminologia, dos Criminólogos e da Justiça&quot; — Associação Portuguesa de Criminologia, fundada em 2011."
+           data-en="&quot;In Support of Criminology, Criminologists and Justice&quot; — Portuguese Association of Criminology, founded in 2011.">
+          "Em prol da Criminologia, dos Criminólogos e da Justiça" — Associação Portuguesa de Criminologia, fundada em 2011.
+        </p>
+      </div>
+      <div>
+        <p class="text-xs font-bold tracking-widest uppercase text-white/30 mb-4" data-pt="Navegação" data-en="Navigation">Navegação</p>
+        <div class="space-y-2">
+          <a href="index.html#sobre"     class="footer-link block" data-pt="Sobre a APC"           data-en="About APC">Sobre a APC</a>
+          <a href="conselho.html"        class="footer-link block" data-pt="Conselho Consultivo"    data-en="Advisory Board">Conselho Consultivo</a>
+          <a href="noticias.html"        class="footer-link block" data-pt="Notícias"               data-en="News">Notícias</a>
+          <a href="index.html#socios"    class="footer-link block" data-pt="Ser Sócio"              data-en="Membership">Ser Sócio</a>
+          <a href="publicacoes.html"     class="footer-link block" data-pt="Publicações"            data-en="Publications">Publicações</a>
+          <a href="eventos.html"         class="footer-link block" data-pt="Eventos"                data-en="Events">Eventos</a>
+          <a href="protocolos.html"      class="footer-link block" data-pt="Protocolos"             data-en="Protocols">Protocolos</a>
+          <a href="index.html#contactos" class="footer-link block" data-pt="Contactos"              data-en="Contacts">Contactos</a>
+          <a href="http://apcriminologia.com/pdfs/estatutos_apc.pdf" target="_blank" rel="noopener" class="footer-link block" data-pt="Estatutos" data-en="Statutes">Estatutos</a>
+        </div>
+      </div>
+      <div>
+        <p class="text-xs font-bold tracking-widest uppercase text-white/30 mb-4" data-pt="Contacto" data-en="Contact">Contacto</p>
+        <div class="space-y-2">
+          <p class="footer-link text-xs">Av. Infante Dom Henrique, loja 3<br />4480-670 Vila do Conde</p>
+          <a href="mailto:apcriminologia@gmail.com" class="footer-link block text-xs">apcriminologia@gmail.com</a>
+          <p class="footer-link text-xs">+351 917 042 200</p>
+        </div>
+        <div class="flex gap-2 mt-5">
+          <a href="https://www.facebook.com/apcriminologia/" target="_blank" rel="noopener" class="footer-link hover:text-white">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/apcriminologia/" target="_blank" rel="noopener" class="footer-link hover:text-white">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:24px; display:flex; flex-direction:column; gap:8px;" class="sm:flex-row sm:justify-between sm:items-center">
+      <p class="text-white/25 text-xs" data-pt="© 2026 APC — Associação Portuguesa de Criminologia. Todos os direitos reservados." data-en="© 2026 APC — Portuguese Association of Criminology. All rights reserved.">
+        © 2026 APC — Associação Portuguesa de Criminologia. Todos os direitos reservados.
+      </p>
+      <a href="politica-privacidade.html" class="footer-link text-xs" style="color:rgba(255,255,255,0.3);"
+         data-pt="Política de Privacidade" data-en="Privacy Policy">Política de Privacidade</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════ -->
+<script>
+  // ── Mobile menu ──
+  const mobileMenu = document.getElementById('mobile-menu');
+  document.getElementById('open-menu').addEventListener('click', () => {
+    mobileMenu.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+  document.getElementById('close-menu').addEventListener('click', closeMobileMenu);
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileMenu));
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ── Reveal on scroll ──
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  setTimeout(() => {
+    document.querySelectorAll('.reveal').forEach(el => { if (!el.classList.contains('visible')) revealObserver.observe(el); });
+  }, 100);
+
+  // ── Language toggle ──
+  let currentLang = 'pt';
+  function setLang(lang) {
+    currentLang = lang;
+    document.documentElement.setAttribute('data-lang', lang);
+    document.querySelectorAll('[data-pt]').forEach(el => {
+      if (el.dataset[lang]) el.textContent = el.dataset[lang];
+    });
+    ['desk', 'mob'].forEach(prefix => {
+      const ptBtn = document.getElementById(prefix + '-pt');
+      const enBtn = document.getElementById(prefix + '-en');
+      if (!ptBtn || !enBtn) return;
+      ptBtn.classList.toggle('active', lang === 'pt');
+      enBtn.classList.toggle('active', lang === 'en');
+    });
+  }
+</script>
+</body>
+</html>

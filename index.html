@@ -2,7 +2,7 @@
 <html lang="pt" data-lang="pt">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>APC — Associação Portuguesa de Criminologia</title>
   <meta name="description" content="A Associação Portuguesa de Criminologia representa e promove os profissionais de Criminologia em Portugal. Fundada em 2011, luta pelo reconhecimento da profissão e fomenta a investigação científica." />
   <meta name="robots" content="index, follow" />
@@ -60,6 +60,7 @@
     /* ── Nav ── */
     #navbar {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding-top: env(safe-area-inset-top);
       transition: background 0.4s, box-shadow 0.4s, backdrop-filter 0.4s;
     }
     #navbar.scrolled {
@@ -292,6 +293,10 @@
     @media (max-width: 768px) {
       .desktop-nav { display: none; }
       .mobile-toggle { display: flex !important; }
+      .hero-content {
+        padding-top: calc(6rem + env(safe-area-inset-top)) !important;
+      }
+      .scroll-indicator { display: none; }
     }
     @media (min-width: 769px) {
       .mobile-toggle { display: none !important; }
@@ -313,6 +318,7 @@
   <a href="#socios"   class="mobile-nav-link" data-pt="Ser Sócio"    data-en="Membership">Ser Sócio</a>
   <a href="publicacoes.html" class="mobile-nav-link" data-pt="Publicações" data-en="Publications">Publicações</a>
   <a href="eventos.html" class="mobile-nav-link" data-pt="Eventos"      data-en="Events">Eventos</a>
+  <a href="protocolos.html" class="mobile-nav-link" data-pt="Protocolos"  data-en="Protocols">Protocolos</a>
   <a href="#contactos" class="mobile-nav-link" data-pt="Contactos"   data-en="Contacts">Contactos</a>
   <div class="flex gap-2 mt-4">
     <button onclick="setLang('pt')" class="lang-btn active" id="mob-pt">PT</button>
@@ -339,6 +345,7 @@
       <a href="#socios"    class="nav-link" data-pt="Ser Sócio"    data-en="Membership">Ser Sócio</a>
       <a href="publicacoes.html" class="nav-link" data-pt="Publicações"  data-en="Publications">Publicações</a>
       <a href="eventos.html" class="nav-link" data-pt="Eventos"      data-en="Events">Eventos</a>
+      <a href="protocolos.html" class="nav-link" data-pt="Protocolos"   data-en="Protocols">Protocolos</a>
       <a href="#contactos" class="nav-link" data-pt="Contactos"    data-en="Contacts">Contactos</a>
     </div>
 
@@ -416,7 +423,7 @@
   </div>
 
   <!-- Scroll indicator -->
-  <div class="reveal" style="position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:0.5rem; color:rgba(255,255,255,0.4); transition-delay:0.7s;">
+  <div class="reveal scroll-indicator" style="position:absolute; bottom:2rem; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:0.5rem; color:rgba(255,255,255,0.4); transition-delay:0.7s;">
     <span style="font-size:0.7rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase;" data-pt="Explorar" data-en="Explore">Explorar</span>
     <div style="width:1px; height:40px; background:rgba(255,255,255,0.3); animation:pulse-line 2s ease-in-out infinite;"></div>
   </div>
@@ -689,7 +696,6 @@
     </div>
   </div>
 </section>
-
 <!-- ═══════════════════════════════════════════
      CONTACTOS
 ════════════════════════════════════════════ -->
@@ -811,6 +817,7 @@
           <a href="#socios"    class="footer-link block" data-pt="Ser Sócio"      data-en="Membership">Ser Sócio</a>
           <a href="#publicacoes" class="footer-link block" data-pt="Publicações"    data-en="Publications">Publicações</a>
           <a href="eventos.html" class="footer-link block" data-pt="Eventos"        data-en="Events">Eventos</a>
+          <a href="protocolos.html" class="footer-link block" data-pt="Protocolos"    data-en="Protocols">Protocolos</a>
           <a href="#contactos" class="footer-link block" data-pt="Contactos"      data-en="Contacts">Contactos</a>
           <a href="http://apcriminologia.com/pdfs/estatutos_apc.pdf" target="_blank" rel="noopener" class="footer-link block" data-pt="Estatutos" data-en="Statutes">Estatutos</a>
         </div>
@@ -835,8 +842,8 @@
     </div>
 
     <div style="border-top:1px solid rgba(255,255,255,0.06); padding-top:24px; display:flex; flex-direction:column; gap:8px;" class="sm:flex-row sm:justify-between sm:items-center">
-      <p class="text-white/25 text-xs" data-pt="© 2025 APC — Associação Portuguesa de Criminologia. Todos os direitos reservados." data-en="© 2025 APC — Portuguese Association of Criminology. All rights reserved.">
-        © 2025 APC — Associação Portuguesa de Criminologia. Todos os direitos reservados.
+      <p class="text-white/25 text-xs" data-pt="© 2026 APC — Associação Portuguesa de Criminologia. Todos os direitos reservados." data-en="© 2026 APC — Portuguese Association of Criminology. All rights reserved.">
+        © 2026 APC — Associação Portuguesa de Criminologia. Todos os direitos reservados.
       </p>
       <a href="politica-privacidade.html" class="footer-link text-xs" style="color:rgba(255,255,255,0.3);"
          data-pt="Política de Privacidade" data-en="Privacy Policy">Política de Privacidade</a>
