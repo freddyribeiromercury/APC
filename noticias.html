@@ -331,7 +331,7 @@
   (async () => {
     const query = encodeURIComponent(`*[_type == "noticia"] | order(data desc) { _id, titulo, data, categoria, descricao, link, imagem{ asset } }`);
     try {
-      const res = await fetch(`https://v8cpwm2k.apicdn.sanity.io/v2021-10-04/data/query/production?query=${query}`);
+      const res = await fetch(`https://v8cpwm2k.api.sanity.io/v2021-10-04/data/query/production?query=${query}`);
       const { result } = await res.json();
       const grid = document.getElementById('news-grid');
       while (grid.firstChild) grid.removeChild(grid.firstChild);

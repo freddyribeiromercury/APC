@@ -459,7 +459,7 @@
   (async () => {
     const query = encodeURIComponent(`*[_type == "protocolo" && ativo == true] | order(ordem asc) { _id, nome, logo{ asset }, categoria, etiqueta, beneficios }`);
     try {
-      const res = await fetch(`https://v8cpwm2k.apicdn.sanity.io/v2021-10-04/data/query/production?query=${query}`);
+      const res = await fetch(`https://v8cpwm2k.api.sanity.io/v2021-10-04/data/query/production?query=${query}`);
       const { result } = await res.json();
       const container = document.getElementById('protocolos-content');
       while (container.firstChild) container.removeChild(container.firstChild);
