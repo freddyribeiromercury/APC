@@ -1,4 +1,5 @@
 {
+  "outputDirectory": ".",
   "functions": {
     "api/inscricao.js": { "maxDuration": 30 },
     "api/card.js": { "maxDuration": 30 },
