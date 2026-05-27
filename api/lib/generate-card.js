@@ -1,4 +1,5 @@
-import { ImageResponse } from '@vercel/og'
+import satori from 'satori'
+import sharp from 'sharp'
 
 const FONT_BASE = 'https://cdn.jsdelivr.net/npm/@fontsource/inter@5/files'
 
@@ -218,7 +219,7 @@ export async function generateCard({ nome, genero, temLicenciatura, numeroSocio,
 
   const element = cardElement({ nome, titulo, numLabel, bgColor, fotoDataUrl, logoDataUrl })
 
-  const imageResponse = new ImageResponse(element, {
+  const svg = await satori(element, {
     width: 856,
     height: 540,
     fonts: [
@@ -228,6 +229,5 @@ export async function generateCard({ nome, genero, temLicenciatura, numeroSocio,
     ],
   })
 
-  const arrayBuffer = await imageResponse.arrayBuffer()
-  return Buffer.from(arrayBuffer)
+  return sharp(Buffer.from(svg)).png().toBuffer()
 }
