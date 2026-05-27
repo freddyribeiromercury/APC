@@ -1,5 +1,4 @@
-import satori from 'satori'
-import { Resvg } from '@resvg/resvg-js'
+import { ImageResponse } from '@vercel/og'
 
 const FONT_BASE = 'https://cdn.jsdelivr.net/npm/@fontsource/inter@5/files'
 
@@ -34,7 +33,6 @@ function cardElement({ nome, titulo, numLabel, bgColor, fotoDataUrl, logoDataUrl
         overflow: 'hidden',
       },
       children: [
-        // ── Main row ──
         {
           type: 'div',
           props: {
@@ -75,23 +73,21 @@ function cardElement({ nome, titulo, numLabel, bgColor, fotoDataUrl, logoDataUrl
                     gap: '16px',
                   },
                   children: [
-                    // Logo row
+                    // Logo + org name
                     {
                       type: 'div',
                       props: {
                         style: { display: 'flex', alignItems: 'center', gap: '14px' },
                         children: [
-                          logoDataUrl
-                            ? {
-                                type: 'img',
-                                props: {
-                                  src: logoDataUrl,
-                                  width: 52,
-                                  height: 52,
-                                  style: { width: '52px', height: '52px', objectFit: 'contain' },
-                                },
-                              }
-                            : { type: 'div', props: { style: {}, children: '' } },
+                          ...(logoDataUrl ? [{
+                            type: 'img',
+                            props: {
+                              src: logoDataUrl,
+                              width: 52,
+                              height: 52,
+                              style: { width: '52px', height: '52px', objectFit: 'contain' },
+                            },
+                          }] : []),
                           {
                             type: 'div',
                             props: {
@@ -121,27 +117,18 @@ function cardElement({ nome, titulo, numLabel, bgColor, fotoDataUrl, logoDataUrl
                     {
                       type: 'div',
                       props: {
-                        style: {
-                          fontSize: `${nameFontSize}px`,
-                          fontWeight: '800',
-                          color: '#0d0d0d',
-                          lineHeight: '1.1',
-                        },
+                        style: { fontSize: `${nameFontSize}px`, fontWeight: '800', color: '#0d0d0d', lineHeight: '1.1' },
                         children: nome,
                       },
                     },
                     // Title (criminologists only)
-                    ...(titulo
-                      ? [
-                          {
-                            type: 'div',
-                            props: {
-                              style: { fontSize: '30px', fontWeight: '400', color: '#2a2a2a' },
-                              children: titulo,
-                            },
-                          },
-                        ]
-                      : []),
+                    ...(titulo ? [{
+                      type: 'div',
+                      props: {
+                        style: { fontSize: '30px', fontWeight: '400', color: '#2a2a2a' },
+                        children: titulo,
+                      },
+                    }] : []),
                     // Member number
                     {
                       type: 'div',
@@ -156,7 +143,7 @@ function cardElement({ nome, titulo, numLabel, bgColor, fotoDataUrl, logoDataUrl
             ],
           },
         },
-        // ── Footer ──
+        // Footer
         {
           type: 'div',
           props: {
@@ -168,7 +155,6 @@ function cardElement({ nome, titulo, numLabel, bgColor, fotoDataUrl, logoDataUrl
               borderTop: '1px solid rgba(0,0,0,0.18)',
             },
             children: [
-              // Icons
               {
                 type: 'div',
                 props: {
@@ -177,43 +163,27 @@ function cardElement({ nome, titulo, numLabel, bgColor, fotoDataUrl, logoDataUrl
                     {
                       type: 'div',
                       props: {
-                        style: {
-                          width: '30px', height: '30px', borderRadius: '6px',
-                          backgroundColor: '#1877F2', display: 'flex',
-                          alignItems: 'center', justifyContent: 'center',
-                          color: 'white', fontSize: '20px', fontWeight: '800',
-                        },
+                        style: { width: '30px', height: '30px', borderRadius: '6px', backgroundColor: '#1877F2', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '20px', fontWeight: '800' },
                         children: 'f',
                       },
                     },
                     {
                       type: 'div',
                       props: {
-                        style: {
-                          width: '30px', height: '30px', borderRadius: '6px',
-                          backgroundColor: '#2a2a2a', display: 'flex',
-                          alignItems: 'center', justifyContent: 'center',
-                          color: 'white', fontSize: '16px', fontWeight: '600',
-                        },
+                        style: { width: '30px', height: '30px', borderRadius: '6px', backgroundColor: '#2a2a2a', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '16px', fontWeight: '600' },
                         children: '@',
                       },
                     },
                     {
                       type: 'div',
                       props: {
-                        style: {
-                          width: '30px', height: '30px', borderRadius: '6px',
-                          backgroundColor: '#4a5568', display: 'flex',
-                          alignItems: 'center', justifyContent: 'center',
-                          color: 'white', fontSize: '13px', fontWeight: '700',
-                        },
+                        style: { width: '30px', height: '30px', borderRadius: '6px', backgroundColor: '#4a5568', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '13px', fontWeight: '700' },
                         children: 'www',
                       },
                     },
                   ],
                 },
               },
-              // Contact
               {
                 type: 'div',
                 props: {
@@ -244,11 +214,11 @@ export async function generateCard({ nome, genero, temLicenciatura, numeroSocio,
   const titulo = temLicenciatura
     ? (genero === 'Feminino' ? 'Criminóloga' : 'Criminólogo')
     : null
-  const numLabel = temLicenciatura ? `N.º${numeroSocio}` : `Sócio n.º ${numeroSocio}`
+  const numLabel = temLicenciatura ? `N.º ${numeroSocio}` : `Sócio n.º ${numeroSocio}`
 
   const element = cardElement({ nome, titulo, numLabel, bgColor, fotoDataUrl, logoDataUrl })
 
-  const svg = await satori(element, {
+  const imageResponse = new ImageResponse(element, {
     width: 856,
     height: 540,
     fonts: [
@@ -258,6 +228,6 @@ export async function generateCard({ nome, genero, temLicenciatura, numeroSocio,
     ],
   })
 
-  const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: 856 } })
-  return resvg.render().asPng()
+  const arrayBuffer = await imageResponse.arrayBuffer()
+  return Buffer.from(arrayBuffer)
 }

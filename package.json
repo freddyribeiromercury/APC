@@ -7,11 +7,10 @@
     "build": "echo 'static site'"
   },
   "dependencies": {
-    "@resvg/resvg-js": "^2.6.2",
     "@sanity/client": "^6.29.1",
     "@sanity/image-url": "^2.1.1",
+    "@vercel/og": "^0.11.1",
     "formidable": "^3.5.4",
-    "resend": "^6.12.4",
-    "satori": "^0.26.0"
+    "resend": "^6.12.4"
   }
 }
