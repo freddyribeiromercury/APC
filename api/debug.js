@@ -15,6 +15,20 @@ export default async function handler(req, res) {
     results.sharp = e.message
   }
 
+  try {
+    await import('./lib/generate-card.js')
+    results.generateCard = 'ok'
+  } catch (e) {
+    results.generateCard = e.message
+  }
+
+  try {
+    await import('./lib/sanity.js')
+    results.sanity = 'ok'
+  } catch (e) {
+    results.sanity = e.message
+  }
+
   results.platform = process.platform
   results.arch = process.arch
   results.nodeVersion = process.version
