@@ -5,13 +5,22 @@ import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-function verifySignature(rawBody, secret, signature) {
-  if (!secret || !signature) return !secret // skip verification if no secret configured
+function verifySignature(rawBody, secret, signatureHeader) {
+  if (!secret) return true // skip if no secret configured
+  if (!signatureHeader) return false
   try {
+    // Sanity format: "t=<timestamp>,v1=<base64url_hmac>"
+    const parts = Object.fromEntries(
+      signatureHeader.split(',').map(p => { const i = p.indexOf('='); return [p.slice(0,i), p.slice(i+1)] })
+    )
+    const { t: timestamp, v1 } = parts
+    if (!timestamp || !v1) return false
     const hmac = crypto.createHmac('sha256', secret)
-    hmac.update(rawBody)
+    hmac.update(`${timestamp}.${rawBody}`)
     const expected = hmac.digest('base64')
-    return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected))
+    // normalise base64url → base64 for comparison
+    const v1b64 = v1.replace(/-/g, '+').replace(/_/g, '/')
+    return crypto.timingSafeEqual(Buffer.from(v1b64), Buffer.from(expected))
   } catch {
     return false
   }
@@ -71,7 +80,7 @@ export default async function handler(req, res) {
     })
 
     // Send welcome email with card attachment
-    await resend.emails.send({
+    const { error: emailError } = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
       to: doc.email,
       subject: `Bem-vindo(a) à APC — Cartão de Sócio N.º ${numeroSocio}`,
@@ -97,6 +106,8 @@ export default async function handler(req, res) {
         },
       ],
     })
+
+    if (emailError) console.error('[webhook-aprovacao] Resend error:', emailError)
 
     return res.json({ success: true, numeroSocio })
   } catch (err) {
