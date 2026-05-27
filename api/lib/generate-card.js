@@ -11,7 +11,7 @@ async function fetchArrayBuffer(url) {
 async function fetchGoogleFont(family, weight) {
   const css = await fetch(
     `https://fonts.googleapis.com/css?family=${family}:${weight}`,
-    { headers: { 'User-Agent': 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)' } }
+    { headers: { 'User-Agent': 'Mozilla/5.0' } }
   ).then(r => r.text())
   const url = css.match(/src: url\((.+?)\)/)?.[1]
   if (!url) throw new Error(`Font URL not found for ${family}:${weight}`)
