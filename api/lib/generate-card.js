@@ -1,12 +1,21 @@
 import satori from 'satori'
 import sharp from 'sharp'
 
-const INTER_BASE = 'https://cdn.jsdelivr.net/gh/rsms/inter@v3.19.4/font-files'
-
 async function fetchArrayBuffer(url) {
   const res = await fetch(url)
   if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`)
   return res.arrayBuffer()
+}
+
+// Old user-agent forces Google Fonts to return TTF (not WOFF2) which satori requires
+async function fetchGoogleFont(family, weight) {
+  const css = await fetch(
+    `https://fonts.googleapis.com/css?family=${family}:${weight}`,
+    { headers: { 'User-Agent': 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)' } }
+  ).then(r => r.text())
+  const url = css.match(/src: url\((.+?)\)/)?.[1]
+  if (!url) throw new Error(`Font URL not found for ${family}:${weight}`)
+  return fetch(url).then(r => r.arrayBuffer())
 }
 
 async function fetchImageAsDataUrl(url) {
@@ -204,9 +213,9 @@ export async function generateCard({ nome, genero, temLicenciatura, numeroSocio,
   const base = siteUrl || 'https://apcriminologia.com'
 
   const [fontRegular, fontBold, fontExtrabold, fotoDataUrl, logoDataUrl] = await Promise.all([
-    fetchArrayBuffer(`${INTER_BASE}/Inter-Regular.otf`),
-    fetchArrayBuffer(`${INTER_BASE}/Inter-Bold.otf`),
-    fetchArrayBuffer(`${INTER_BASE}/Inter-ExtraBold.otf`),
+    fetchGoogleFont('Inter', 400),
+    fetchGoogleFont('Inter', 700),
+    fetchGoogleFont('Inter', 800),
     fetchImageAsDataUrl(fotoUrl),
     fetchImageAsDataUrl(`${base}/logotopo.png`).catch(() => null),
   ])
