@@ -83,6 +83,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true, id: doc._id })
   } catch (err) {
     console.error('[inscricao]', err)
-    return res.status(500).json({ error: 'Erro interno. Por favor tente mais tarde.' })
+    return res.status(500).json({ error: 'Erro interno. Por favor tente mais tarde.', _debug: err?.message || String(err) })
   }
 }
