@@ -55,7 +55,7 @@ export default async function handler(req, res) {
       ? 'Com licenciatura em Criminologia (cartão cinzento)'
       : 'Sem licenciatura (cartão amarelo)'
 
-    await resend.emails.send({
+    const { error: emailError } = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev',
       to: process.env.ADMIN_EMAIL,
       subject: `Novo pedido de inscrição — ${nome}`,
@@ -77,6 +77,7 @@ export default async function handler(req, res) {
         </div>
       `,
     })
+    if (emailError) console.error('[inscricao] Resend error:', emailError)
 
     try { fs.unlinkSync(fotoFile.filepath) } catch (_) {}
 
