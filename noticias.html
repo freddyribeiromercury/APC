@@ -61,9 +61,19 @@
     .accent-line { width: 60px; height: 3px; background: linear-gradient(90deg, #C0392B, #27AE60); border-radius: 2px; }
     .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #C0392B; }
     .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; line-height: 1.15; }
-    .news-card { background: #fff; border: 1px solid #e8eff3; border-radius: 2px; overflow: hidden; transition: box-shadow 0.3s, transform 0.3s; }
-    .news-card:hover { box-shadow: 0 12px 40px rgba(44,74,92,0.12); transform: translateY(-3px); }
-    .news-card .card-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 1px; }
+    .news-card { background: #fff; border: 1px solid #e8eff3; border-radius: 2px; overflow: hidden; transition: box-shadow 0.3s, transform 0.3s; display: flex; flex-direction: column; }
+    .news-card:hover { box-shadow: 0 12px 40px rgba(44,74,92,0.14); transform: translateY(-4px); }
+    .news-card-img { position: relative; aspect-ratio: 16/9; overflow: hidden; flex-shrink: 0; }
+    .news-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
+    .news-card:hover .news-card-img img { transform: scale(1.06); }
+    .news-card-img-placeholder { width: 100%; height: 100%; }
+    .news-card-tag { position: absolute; top: 12px; left: 12px; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 9px; border-radius: 1px; color: #fff; }
+    .news-card-body { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+    .news-date { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.06em; color: rgba(44,74,92,0.45); margin-bottom: 8px; }
+    .news-title { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 600; color: #1a2a36; line-height: 1.3; margin-bottom: 10px; }
+    .news-desc { font-size: 0.83rem; color: #4a6070; line-height: 1.65; flex: 1; margin-bottom: 18px; }
+    .news-link { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #C0392B; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s, color 0.2s; width: fit-content; }
+    .news-link:hover { gap: 10px; color: #96281b; }
     .council-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
     @media (min-width: 640px) { .council-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (min-width: 1024px) { .council-grid { grid-template-columns: repeat(5, 1fr); } }
@@ -90,13 +100,12 @@
   <button id="close-menu" class="absolute top-6 right-6 text-white" aria-label="Fechar menu">
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
   </button>
-  <a href="index.html#sobre" class="mobile-nav-link" data-pt="Sobre" data-en="About">Sobre</a>
-  <a href="conselho.html" class="mobile-nav-link" data-pt="Conselho" data-en="Advisory">Conselho</a>
-  <a href="noticias.html" class="mobile-nav-link" data-pt="Notícias" data-en="News">Notícias</a>
-  <a href="publicacoes.html" class="mobile-nav-link" data-pt="Publicações" data-en="Publications">Publicações</a>
-  <a href="eventos.html" class="mobile-nav-link" data-pt="Eventos" data-en="Events">Eventos</a>
-  <a href="index.html#socios" class="mobile-nav-link" data-pt="Ser Sócio" data-en="Membership">Ser Sócio</a>
-  <a href="index.html#contactos" class="mobile-nav-link" data-pt="Contactos" data-en="Contacts">Contactos</a>
+  <a href="index.html#sobre"   class="mobile-nav-link" data-pt="Sobre a APC"          data-en="About APC">Sobre a APC</a>
+  <a href="inscricao.html" class="mobile-nav-link" data-pt="Ser Sócio"            data-en="Membership">Ser Sócio</a>
+  <a href="noticias.html"     class="mobile-nav-link" data-pt="Notícias"             data-en="News">Notícias</a>
+  <a href="protocolos.html"   class="mobile-nav-link" data-pt="Protocolos"           data-en="Protocols">Protocolos</a>
+  <a href="conselho.html"     class="mobile-nav-link" data-pt="Conselho Consultivo"  data-en="Advisory Board">Conselho Consultivo</a>
+  <a href="index.html#contactos" class="mobile-nav-link" data-pt="Contacto"          data-en="Contact">Contacto</a>
   <div class="flex gap-2 mt-4">
     <button onclick="setLang('pt')" class="lang-btn active" id="mob-pt">PT</button>
     <button onclick="setLang('en')" class="lang-btn" id="mob-en">EN</button>
@@ -108,13 +117,12 @@
       <img src="logotopo.png" alt="APC" class="h-9 lg:h-10 w-auto brightness-110" />
     </a>
     <div class="desktop-nav hidden md:flex items-center gap-5 lg:gap-7">
-      <a href="index.html#sobre" class="nav-link" data-pt="Sobre a APC" data-en="About APC">Sobre a APC</a>
-      <a href="conselho.html" class="nav-link" data-pt="Conselho Consultivo" data-en="Advisory Board">Conselho Consultivo</a>
-      <a href="noticias.html" class="nav-link active" data-pt="Notícias" data-en="News">Notícias</a>
-      <a href="publicacoes.html" class="nav-link" data-pt="Publicações" data-en="Publications">Publicações</a>
-      <a href="eventos.html" class="nav-link" data-pt="Eventos" data-en="Events">Eventos</a>
-      <a href="index.html#socios" class="nav-link" data-pt="Ser Sócio" data-en="Membership">Ser Sócio</a>
-      <a href="index.html#contactos" class="nav-link" data-pt="Contactos" data-en="Contacts">Contactos</a>
+      <a href="index.html#sobre"    class="nav-link" data-pt="Sobre a APC"          data-en="About APC">Sobre a APC</a>
+      <a href="inscricao.html"   class="nav-link" data-pt="Ser Sócio"            data-en="Membership">Ser Sócio</a>
+      <a href="noticias.html"       class="nav-link active" data-pt="Notícias"      data-en="News">Notícias</a>
+      <a href="protocolos.html"     class="nav-link" data-pt="Protocolos"           data-en="Protocols">Protocolos</a>
+      <a href="conselho.html"       class="nav-link" data-pt="Conselho Consultivo"  data-en="Advisory Board">Conselho Consultivo</a>
+      <a href="index.html#contactos" class="nav-link" data-pt="Contacto"            data-en="Contact">Contacto</a>
     </div>
     <div class="flex items-center gap-3">
       <div class="flex gap-1">
@@ -143,63 +151,94 @@
     <div class="accent-line reveal mx-auto" style="transition-delay:0.2s"></div>
   </div>
 </div>
-<section style="background:#fff; padding:80px 0;">
+<section style="background:#f8f9fb; padding:80px 0;">
   <div class="max-w-7xl mx-auto px-6">
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="news-card reveal">
-        <div style="background:linear-gradient(135deg,#111820,#2C4A5C); padding:28px 24px; min-height:140px; display:flex; flex-direction:column; justify-content:flex-end;">
-          <span class="card-tag text-white" style="background:rgba(192,57,43,0.85); width:fit-content; margin-bottom:10px;" data-pt="Conquista" data-en="Achievement">Conquista</span>
-          <p class="font-display text-xl text-white font-semibold leading-snug" data-pt="Lei 70/2019 Regula a Profissão de Criminólogo" data-en="Law 70/2019 Regulates the Criminologist Profession">Lei 70/2019 Regula a Profissão de Criminólogo</p>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
+
+      <!-- Notícia 1 -->
+      <article class="news-card reveal">
+        <div class="news-card-img">
+          <div class="news-card-img-placeholder" style="background:linear-gradient(135deg,#111820 0%,#2C4A5C 100%);"></div>
+          <span class="news-card-tag" style="background:#C0392B;" data-pt="Conquista" data-en="Achievement">Conquista</span>
         </div>
-        <div style="padding:20px 24px;">
-          <p class="text-xs text-slate-400 font-semibold mb-2">03.09.2019</p>
-          <p class="text-sm text-slate-600 leading-relaxed" data-pt="Com muita honra partilhamos a publicação em Diário da República da Lei que regulamenta a profissão de criminólogo. Este diploma é o culminar de anos de trabalho e dedicação." data-en="We proudly share the publication in the Official Gazette of the Law regulating the criminologist profession, the culmination of years of work and dedication.">Com muita honra partilhamos a publicação em Diário da República da Lei que regulamenta a profissão de criminólogo. Este diploma é o culminar de anos de trabalho e dedicação.</p>
+        <div class="news-card-body">
+          <p class="news-date">03.09.2019</p>
+          <h3 class="news-title" data-pt="Lei 70/2019 Regula a Profissão de Criminólogo" data-en="Law 70/2019 Regulates the Criminologist Profession">Lei 70/2019 Regula a Profissão de Criminólogo</h3>
+          <p class="news-desc" data-pt="Com muita honra partilhamos a publicação em Diário da República da Lei que regulamenta a profissão de criminólogo. Este diploma é o culminar de anos de trabalho e dedicação." data-en="We proudly share the publication in the Official Gazette of the Law regulating the criminologist profession, the culmination of years of work and dedication.">Com muita honra partilhamos a publicação em Diário da República da Lei que regulamenta a profissão de criminólogo. Este diploma é o culminar de anos de trabalho e dedicação.</p>
+          <a href="#" class="news-link" data-pt="Ver mais" data-en="Read more">Ver mais <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
-      </div>
-      <div class="news-card reveal" style="transition-delay:0.1s">
-        <div style="background:linear-gradient(135deg,#1d3a2b,#27AE60,#1d3a2b); background-size:200%; padding:28px 24px; min-height:140px; display:flex; flex-direction:column; justify-content:flex-end;">
-          <span class="card-tag text-white" style="background:rgba(17,24,32,0.7); width:fit-content; margin-bottom:10px;" data-pt="Evento" data-en="Event">Evento</span>
-          <p class="font-display text-xl text-white font-semibold leading-snug" data-pt="VI Congresso Português de Criminologia" data-en="VI Portuguese Congress of Criminology">VI Congresso Português de Criminologia</p>
+      </article>
+
+      <!-- Notícia 2 -->
+      <article class="news-card reveal" style="transition-delay:0.1s">
+        <div class="news-card-img">
+          <div class="news-card-img-placeholder" style="background:linear-gradient(135deg,#1d3a2b 0%,#27AE60 60%,#1a4a2e 100%);"></div>
+          <span class="news-card-tag" style="background:rgba(17,24,32,0.75);" data-pt="Evento" data-en="Event">Evento</span>
         </div>
-        <div style="padding:20px 24px;">
-          <p class="text-xs text-slate-400 font-semibold mb-2">11.11.2019</p>
-          <p class="text-sm text-slate-600 leading-relaxed" data-pt="É com satisfação que anunciamos o VI Congresso Português de Criminologia com o tema «O Criminólogo». Um evento de enorme enriquecimento profissional." data-en="We are pleased to announce the VI Portuguese Congress of Criminology with the theme 'The Criminologist', an event of great professional enrichment.">É com satisfação que anunciamos o VI Congresso Português de Criminologia com o tema «O Criminólogo». Um evento de enorme enriquecimento profissional.</p>
+        <div class="news-card-body">
+          <p class="news-date">11.11.2019</p>
+          <h3 class="news-title" data-pt="VI Congresso Português de Criminologia" data-en="VI Portuguese Congress of Criminology">VI Congresso Português de Criminologia</h3>
+          <p class="news-desc" data-pt="É com satisfação que anunciamos o VI Congresso Português de Criminologia com o tema «O Criminólogo». Um evento de enorme enriquecimento profissional." data-en="We are pleased to announce the VI Portuguese Congress of Criminology with the theme 'The Criminologist', an event of great professional enrichment.">É com satisfação que anunciamos o VI Congresso Português de Criminologia com o tema «O Criminólogo». Um evento de enorme enriquecimento profissional.</p>
+          <a href="#" class="news-link" data-pt="Ver mais" data-en="Read more">Ver mais <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
-      </div>
-      <div class="news-card reveal" style="transition-delay:0.2s">
-        <div style="background:linear-gradient(135deg,#2C1b1b,#8b1a1a); padding:28px 24px; min-height:140px; display:flex; flex-direction:column; justify-content:flex-end;">
-          <span class="card-tag text-white" style="background:rgba(255,255,255,0.15); width:fit-content; margin-bottom:10px;" data-pt="Congresso" data-en="Congress">Congresso</span>
-          <p class="font-display text-xl text-white font-semibold leading-snug" data-pt="Apresentação do Livro do V Congresso Mundial de Criminologia" data-en="Book Launch: V World Congress of Criminology">Apresentação do Livro do V Congresso Mundial de Criminologia</p>
+      </article>
+
+      <!-- Notícia 3 -->
+      <article class="news-card reveal" style="transition-delay:0.2s">
+        <div class="news-card-img">
+          <div class="news-card-img-placeholder" style="background:linear-gradient(135deg,#2C1b1b 0%,#8b1a1a 100%);"></div>
+          <span class="news-card-tag" style="background:rgba(255,255,255,0.2); backdrop-filter:blur(4px);" data-pt="Congresso" data-en="Congress">Congresso</span>
         </div>
-        <div style="padding:20px 24px;">
-          <p class="text-xs text-slate-400 font-semibold mb-2">20.07.2024</p>
-          <p class="text-sm text-slate-600 leading-relaxed" data-pt="O Sr. Presidente do Município do Fundão convida para a apresentação do livro do V Congresso Mundial de Criminologia, dia 26 de Julho no Fundão." data-en="The Mayor of Fundão invites to the book presentation of the V World Congress of Criminology, July 26 in Fundão.">O Sr. Presidente do Município do Fundão convida para a apresentação do livro do V Congresso Mundial de Criminologia, dia 26 de Julho no Fundão.</p>
+        <div class="news-card-body">
+          <p class="news-date">20.07.2024</p>
+          <h3 class="news-title" data-pt="Apresentação do Livro do V Congresso Mundial de Criminologia" data-en="Book Launch: V World Congress of Criminology">Apresentação do Livro do V Congresso Mundial de Criminologia</h3>
+          <p class="news-desc" data-pt="O Sr. Presidente do Município do Fundão convida para a apresentação do livro do V Congresso Mundial de Criminologia, dia 26 de Julho no Fundão." data-en="The Mayor of Fundão invites to the book presentation of the V World Congress of Criminology, July 26 in Fundão.">O Sr. Presidente do Município do Fundão convida para a apresentação do livro do V Congresso Mundial de Criminologia, dia 26 de Julho no Fundão.</p>
+          <a href="#" class="news-link" data-pt="Ver mais" data-en="Read more">Ver mais <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
-      </div>
-      <div class="news-card reveal" style="transition-delay:0.3s">
-        <div style="padding:20px 24px; border-top:3px solid #C0392B;">
-          <p class="text-xs text-slate-400 font-semibold mb-2">05.06.2016</p>
-          <span class="card-tag" style="background:#fff3f2; color:#C0392B; margin-bottom:10px; display:inline-block;" data-pt="Palestra" data-en="Talk">Palestra</span>
-          <p class="font-display text-lg font-semibold text-slate-900 leading-snug mt-2" data-pt="Palestra «Terrorismo, Segurança e Justiça»" data-en="Talk: 'Terrorism, Security and Justice'">Palestra «Terrorismo, Segurança e Justiça»</p>
-          <p class="text-sm text-slate-500 mt-3 leading-relaxed" data-pt="A APC e o Clube de Caçadores da Estela convidam para a palestra «Terrorismo, Segurança e Justiça», no dia 13 de junho pelas 21h30." data-en="APC and Clube de Caçadores da Estela invite to the talk 'Terrorism, Security and Justice' on June 13 at 21h30.">A APC e o Clube de Caçadores da Estela convidam para a palestra «Terrorismo, Segurança e Justiça», no dia 13 de junho pelas 21h30.</p>
+      </article>
+
+      <!-- Notícia 4 -->
+      <article class="news-card reveal" style="transition-delay:0.1s">
+        <div class="news-card-img">
+          <div class="news-card-img-placeholder" style="background:linear-gradient(135deg,#1e1212 0%,#4a1a1a 50%,#C0392B 100%);"></div>
+          <span class="news-card-tag" style="background:#C0392B;" data-pt="Palestra" data-en="Talk">Palestra</span>
         </div>
-      </div>
-      <div class="news-card reveal" style="transition-delay:0.4s">
-        <div style="padding:20px 24px; border-top:3px solid #27AE60;">
-          <p class="text-xs text-slate-400 font-semibold mb-2">10.09.2019</p>
-          <span class="card-tag" style="background:#f0faf4; color:#27AE60; margin-bottom:10px; display:inline-block;" data-pt="Formação" data-en="Training">Formação</span>
-          <p class="font-display text-lg font-semibold text-slate-900 leading-snug mt-2" data-pt="Formação «Gestão do Local do Crime»" data-en="Training: 'Crime Scene Management'">Formação «Gestão do Local do Crime»</p>
-          <p class="text-sm text-slate-500 mt-3 leading-relaxed" data-pt="A APC em parceria com a APBS realiza ação de formação certificada sobre Gestão do Local do Crime. Das 09:30 às 18:30. Inscrições limitadas." data-en="APC in partnership with APBS offers a certified training on Crime Scene Management. 09:30–18:30. Limited seats.">A APC em parceria com a APBS realiza ação de formação certificada sobre Gestão do Local do Crime. Das 09:30 às 18:30. Inscrições limitadas.</p>
+        <div class="news-card-body">
+          <p class="news-date">05.06.2016</p>
+          <h3 class="news-title" data-pt="Palestra «Terrorismo, Segurança e Justiça»" data-en="Talk: 'Terrorism, Security and Justice'">Palestra «Terrorismo, Segurança e Justiça»</h3>
+          <p class="news-desc" data-pt="A APC e o Clube de Caçadores da Estela convidam para a palestra «Terrorismo, Segurança e Justiça», no dia 13 de junho pelas 21h30." data-en="APC and Clube de Caçadores da Estela invite to the talk 'Terrorism, Security and Justice' on June 13 at 21h30.">A APC e o Clube de Caçadores da Estela convidam para a palestra «Terrorismo, Segurança e Justiça», no dia 13 de junho pelas 21h30.</p>
+          <a href="#" class="news-link" data-pt="Ver mais" data-en="Read more">Ver mais <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
-      </div>
-      <div class="news-card reveal" style="transition-delay:0.5s">
-        <div style="padding:20px 24px; border-top:3px solid #2C4A5C;">
-          <p class="text-xs text-slate-400 font-semibold mb-2">24.04.2013</p>
-          <span class="card-tag" style="background:#e8eff3; color:#2C4A5C; margin-bottom:10px; display:inline-block;" data-pt="Petição" data-en="Petition">Petição</span>
-          <p class="font-display text-lg font-semibold text-slate-900 leading-snug mt-2" data-pt="Petição pelo Reconhecimento da Profissão de Criminólogo entregue na AR" data-en="Petition for Criminologist Profession Recognition Submitted to Parliament">Petição pelo Reconhecimento da Profissão de Criminólogo entregue na AR</p>
-          <p class="text-sm text-slate-500 mt-3 leading-relaxed" data-pt="A APC entregou a Petição pelo Reconhecimento da Profissão de Criminólogo junto da Comissão da Educação da Assembleia da República." data-en="APC submitted the Petition for Recognition of the Criminologist Profession to the Education Committee of the Assembly of the Republic.">A APC entregou a Petição pelo Reconhecimento da Profissão de Criminólogo junto da Comissão da Educação da Assembleia da República.</p>
+      </article>
+
+      <!-- Notícia 5 -->
+      <article class="news-card reveal" style="transition-delay:0.2s">
+        <div class="news-card-img">
+          <div class="news-card-img-placeholder" style="background:linear-gradient(135deg,#0d2018 0%,#155a32 60%,#27AE60 100%);"></div>
+          <span class="news-card-tag" style="background:#27AE60;" data-pt="Formação" data-en="Training">Formação</span>
         </div>
-      </div>
+        <div class="news-card-body">
+          <p class="news-date">10.09.2019</p>
+          <h3 class="news-title" data-pt="Formação «Gestão do Local do Crime»" data-en="Training: 'Crime Scene Management'">Formação «Gestão do Local do Crime»</h3>
+          <p class="news-desc" data-pt="A APC em parceria com a APBS realiza ação de formação certificada sobre Gestão do Local do Crime. Das 09:30 às 18:30. Inscrições limitadas." data-en="APC in partnership with APBS offers a certified training on Crime Scene Management. 09:30–18:30. Limited seats.">A APC em parceria com a APBS realiza ação de formação certificada sobre Gestão do Local do Crime. Das 09:30 às 18:30. Inscrições limitadas.</p>
+          <a href="#" class="news-link" data-pt="Ver mais" data-en="Read more">Ver mais <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </article>
+
+      <!-- Notícia 6 -->
+      <article class="news-card reveal" style="transition-delay:0.3s">
+        <div class="news-card-img">
+          <div class="news-card-img-placeholder" style="background:linear-gradient(135deg,#111820 0%,#2C4A5C 100%);"></div>
+          <span class="news-card-tag" style="background:#2C4A5C;" data-pt="Petição" data-en="Petition">Petição</span>
+        </div>
+        <div class="news-card-body">
+          <p class="news-date">24.04.2013</p>
+          <h3 class="news-title" data-pt="Petição pelo Reconhecimento da Profissão de Criminólogo entregue na AR" data-en="Petition for Criminologist Profession Recognition Submitted to Parliament">Petição pelo Reconhecimento da Profissão de Criminólogo entregue na AR</h3>
+          <p class="news-desc" data-pt="A APC entregou a Petição pelo Reconhecimento da Profissão de Criminólogo junto da Comissão da Educação da Assembleia da República." data-en="APC submitted the Petition for Recognition of the Criminologist Profession to the Education Committee of the Assembly of the Republic.">A APC entregou a Petição pelo Reconhecimento da Profissão de Criminólogo junto da Comissão da Educação da Assembleia da República.</p>
+          <a href="#" class="news-link" data-pt="Ver mais" data-en="Read more">Ver mais <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </article>
+
     </div>
   </div>
 </section>
@@ -222,7 +261,7 @@
           <a href="noticias.html"        class="footer-link block" data-pt="Notícias"            data-en="News">Notícias</a>
           <a href="publicacoes.html"     class="footer-link block" data-pt="Publicações"         data-en="Publications">Publicações</a>
           <a href="eventos.html"         class="footer-link block" data-pt="Eventos"             data-en="Events">Eventos</a>
-          <a href="index.html#socios"    class="footer-link block" data-pt="Ser Sócio"           data-en="Membership">Ser Sócio</a>
+          <a href="inscricao.html"    class="footer-link block" data-pt="Ser Sócio"           data-en="Membership">Ser Sócio</a>
           <a href="index.html#contactos" class="footer-link block" data-pt="Contactos"           data-en="Contacts">Contactos</a>
           <a href="http://apcriminologia.com/pdfs/estatutos_apc.pdf" target="_blank" rel="noopener" class="footer-link block" data-pt="Estatutos" data-en="Statutes">Estatutos</a>
         </div>
@@ -235,10 +274,10 @@
           <p class="footer-link text-xs">+351 917 042 200</p>
         </div>
         <div class="flex gap-2 mt-5">
-          <a href="https://www.facebook.com/apcriminologia/" target="_blank" rel="noopener" class="footer-link hover:text-white">
+          <a href="https://www.facebook.com/apcriminologia/" target="_blank" rel="noopener" aria-label="Visitar página Facebook da APC (abre em nova janela)" class="footer-link hover:text-white">
             <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
           </a>
-          <a href="https://www.instagram.com/apcriminologia/" target="_blank" rel="noopener" class="footer-link hover:text-white">
+          <a href="https://www.instagram.com/apcriminologia/" target="_blank" rel="noopener" aria-label="Visitar perfil Instagram da APC (abre em nova janela)" class="footer-link hover:text-white">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
           </a>
         </div>

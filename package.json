@@ -1,0 +1,13 @@
+{
+  "name": "apc-website",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "@sanity/client": "^6.22.0",
+    "@sanity/image-url": "^1.0.2",
+    "formidable": "^3.5.2",
+    "resend": "^4.0.0",
+    "satori": "^0.11.5"
+  }
+}

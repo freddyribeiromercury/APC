@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Inscrição de Sócio — APC</title>
+  <meta name="description" content="Formulário de inscrição como sócio da Associação Portuguesa de Criminologia." />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <meta name="theme-color" content="#111820" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            slate: { DEFAULT:'#2C4A5C', 900:'#1a2a36', 800:'#243d4d', 700:'#2C4A5C', 600:'#3a5f75', 100:'#e8eff3' },
+            brand: { red:'#C0392B', green:'#27AE60', dark:'#111820' },
+          },
+          fontFamily: {
+            display: ['"Cormorant Garamond"', 'serif'],
+            sans:    ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: #111820; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; color: #1a2a36; background: #111820; overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #111820; }
+    ::-webkit-scrollbar-thumb { background: #C0392B; border-radius: 3px; }
+
+    /* ── Navbar ── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding-top: env(safe-area-inset-top);
+      background: rgba(17,24,32,0.96); backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .nav-link { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.75); transition: color 0.2s; padding: 0.25rem 0; position: relative; }
+    .nav-link::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: #C0392B; transition: width 0.3s; }
+    .nav-link:hover, .nav-link.active { color: #fff; }
+    .nav-link.active::after, .nav-link:hover::after { width: 100%; }
+    .lang-btn { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; padding: 4px 10px; border-radius: 1px; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.7); }
+    .lang-btn.active { background: #C0392B; border-color: #C0392B; color: #fff; }
+    #mobile-menu { position: fixed; inset: 0; z-index: 200; background: rgba(17,24,32,0.98); backdrop-filter: blur(20px); transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2rem; }
+    #mobile-menu.open { transform: translateX(0); }
+    .mobile-nav-link { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 500; color: #fff; text-decoration: none; transition: color 0.2s; }
+    .mobile-nav-link:hover { color: #C0392B; }
+    @media (max-width: 768px) { .desktop-nav { display: none; } .mobile-toggle { display: flex !important; } }
+    @media (min-width: 769px) { .mobile-toggle { display: none !important; } }
+
+    /* ── Form ── */
+    .form-label { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
+    .form-input {
+      width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 2px; padding: 10px 14px; color: #fff; font-size: 0.9rem;
+      font-family: 'Plus Jakarta Sans', sans-serif; transition: border-color 0.2s, background 0.2s;
+      outline: none;
+    }
+    .form-input:focus { border-color: rgba(192,57,43,0.7); background: rgba(255,255,255,0.09); }
+    .form-input::placeholder { color: rgba(255,255,255,0.25); }
+    textarea.form-input { resize: vertical; min-height: 80px; }
+
+    /* Radio pills */
+    .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+    .radio-pill input[type=radio] { display: none; }
+    .radio-pill label {
+      display: inline-block; padding: 7px 18px; border-radius: 2px; cursor: pointer;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em;
+      border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.6);
+      transition: all 0.2s;
+    }
+    .radio-pill input[type=radio]:checked + label { background: #C0392B; border-color: #C0392B; color: #fff; }
+
+    /* Photo upload */
+    #foto-drop {
+      border: 2px dashed rgba(255,255,255,0.18); border-radius: 4px;
+      background: rgba(255,255,255,0.04); cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; transition: border-color 0.2s, background 0.2s;
+      min-height: 200px; position: relative; overflow: hidden;
+    }
+    #foto-drop:hover, #foto-drop.drag { border-color: rgba(192,57,43,0.7); background: rgba(192,57,43,0.06); }
+    #foto-preview { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; display: none; border-radius: 2px; }
+
+    /* Submit button */
+    .btn-primary {
+      background: #C0392B; color: #fff; border: none; padding: 14px 36px;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer;
+      border-radius: 2px; transition: background 0.2s, transform 0.15s; width: 100%;
+    }
+    .btn-primary:hover:not(:disabled) { background: #96281b; }
+    .btn-primary:disabled { background: rgba(192,57,43,0.4); cursor: not-allowed; }
+    .btn-primary.loading { position: relative; color: transparent; }
+    .btn-primary.loading::after {
+      content: ''; position: absolute; inset: 50% 50% auto auto;
+      margin: -10px -10px 0 0; width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .accent-line { width: 60px; height: 3px; background: linear-gradient(90deg,#C0392B,#27AE60); border-radius: 2px; }
+    .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #C0392B; }
+
+    /* Alert boxes */
+    .alert { padding: 14px 18px; border-radius: 2px; font-size: 0.85rem; display: none; }
+    .alert-success { background: rgba(39,174,96,0.15); border: 1px solid rgba(39,174,96,0.4); color: #27AE60; }
+    .alert-error { background: rgba(192,57,43,0.15); border: 1px solid rgba(192,57,43,0.4); color: #e74c3c; }
+    .footer-link { color: rgba(255,255,255,0.5); font-size: 0.8rem; transition: color 0.2s; }
+    .footer-link:hover { color: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- Mobile menu -->
+<div id="mobile-menu" role="dialog" aria-modal="true">
+  <button id="close-menu" class="absolute top-6 right-6 text-white" aria-label="Fechar menu">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+  </button>
+  <a href="index.html#sobre"      class="mobile-nav-link">Sobre a APC</a>
+  <a href="inscricao.html"        class="mobile-nav-link">Ser Sócio</a>
+  <a href="noticias.html"         class="mobile-nav-link">Notícias</a>
+  <a href="protocolos.html"       class="mobile-nav-link">Protocolos</a>
+  <a href="conselho.html"         class="mobile-nav-link">Conselho Consultivo</a>
+  <a href="index.html#contactos"  class="mobile-nav-link">Contacto</a>
+</div>
+
+<!-- Navbar -->
+<nav id="navbar" aria-label="Navegação principal">
+  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+    <a href="index.html" class="flex-shrink-0">
+      <img src="logotopo.png" alt="APC" class="h-9 lg:h-10 w-auto brightness-110" />
+    </a>
+    <div class="desktop-nav hidden md:flex items-center gap-5 lg:gap-7">
+      <a href="index.html#sobre"      class="nav-link">Sobre a APC</a>
+      <a href="inscricao.html"         class="nav-link active">Ser Sócio</a>
+      <a href="noticias.html"         class="nav-link">Notícias</a>
+      <a href="protocolos.html"       class="nav-link">Protocolos</a>
+      <a href="conselho.html"         class="nav-link">Conselho Consultivo</a>
+      <a href="index.html#contactos"  class="nav-link">Contacto</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="open-menu" class="mobile-toggle hidden text-white p-1 ml-2" aria-label="Abrir menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div style="background:#111820; padding:130px 0 60px; position:relative; overflow:hidden;">
+  <div style="position:absolute; inset:0; background:linear-gradient(135deg,rgba(192,57,43,0.07) 0%,transparent 60%);"></div>
+  <div class="max-w-7xl mx-auto px-6" style="position:relative; z-index:1; padding-bottom:20px;">
+    <a href="inscricao.html"
+       style="display:inline-flex; align-items:center; gap:6px; color:rgba(255,255,255,0.45); font-size:0.72rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; transition:color 0.2s;"
+       onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.45)'">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Ser Sócio
+    </a>
+  </div>
+  <div class="max-w-7xl mx-auto px-6 text-center" style="position:relative; z-index:1;">
+    <p class="section-label mb-4">Associação Portuguesa de Criminologia</p>
+    <h1 class="font-display text-white mb-6" style="font-size:clamp(2.2rem,5vw,3.4rem); font-weight:600; line-height:1.15;">
+      Ficha de Inscrição de Sócio
+    </h1>
+    <div class="accent-line mx-auto mb-6"></div>
+    <p style="color:rgba(255,255,255,0.55); font-size:0.92rem; max-width:520px; margin:0 auto; line-height:1.7;">
+      Preencha o formulário com os seus dados. Após análise, receberá o cartão de sócio por email.
+    </p>
+  </div>
+</div>
+
+<!-- Form section -->
+<div style="background:#111820; padding:60px 0 100px;">
+  <div class="max-w-3xl mx-auto px-6">
+
+    <!-- Success state -->
+    <div id="success-card" style="display:none; text-align:center; padding:60px 40px; background:rgba(39,174,96,0.08); border:1px solid rgba(39,174,96,0.25); border-radius:4px;">
+      <div style="width:56px; height:56px; background:rgba(39,174,96,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 20px;">
+        <svg width="28" height="28" fill="none" stroke="#27AE60" stroke-width="2.5" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h2 class="font-display text-white mb-3" style="font-size:1.8rem; font-weight:600;">Pedido recebido!</h2>
+      <p style="color:rgba(255,255,255,0.6); font-size:0.9rem; line-height:1.7; max-width:420px; margin:0 auto;">
+        A sua inscrição foi submetida e está em análise. Será contactado(a) por email assim que aprovada.
+      </p>
+    </div>
+
+    <!-- Form card -->
+    <div id="form-card" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:4px; padding:40px;">
+
+      <div id="alert-error" class="alert alert-error mb-6"></div>
+
+      <form id="inscricao-form" novalidate>
+
+        <!-- Foto -->
+        <div class="mb-8">
+          <label class="form-label">Fotografia <span style="color:#C0392B;">*</span></label>
+          <div id="foto-drop" onclick="document.getElementById('foto-input').click()">
+            <img id="foto-preview" alt="Preview da foto" />
+            <div id="foto-placeholder" style="text-align:center; padding:20px;">
+              <svg width="36" height="36" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 10px; display:block;">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+                <path d="M21 15l-5-5L5 21"/>
+              </svg>
+              <p style="color:rgba(255,255,255,0.4); font-size:0.82rem;">Clique ou arraste a sua fotografia</p>
+              <p style="color:rgba(255,255,255,0.25); font-size:0.74rem; margin-top:4px;">JPG ou PNG · Máx. 5 MB</p>
+            </div>
+          </div>
+          <input type="file" id="foto-input" name="foto" accept="image/jpeg,image/png,image/webp" style="display:none;" required />
+        </div>
+
+        <!-- Nome -->
+        <div class="mb-5">
+          <label class="form-label" for="nome">Nome Completo <span style="color:#C0392B;">*</span></label>
+          <input class="form-input" type="text" id="nome" name="nome" placeholder="Nome e apelido" autocomplete="name" required />
+        </div>
+
+        <!-- Género -->
+        <div class="mb-5">
+          <label class="form-label">Género <span style="color:#C0392B;">*</span></label>
+          <div class="radio-group">
+            <div class="radio-pill">
+              <input type="radio" id="gen-masc" name="genero" value="Masculino" required />
+              <label for="gen-masc">Masculino</label>
+            </div>
+            <div class="radio-pill">
+              <input type="radio" id="gen-fem" name="genero" value="Feminino" />
+              <label for="gen-fem">Feminino</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email + Telemóvel -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+          <div>
+            <label class="form-label" for="email">Email <span style="color:#C0392B;">*</span></label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="email@exemplo.com" autocomplete="email" required />
+          </div>
+          <div>
+            <label class="form-label" for="telemovel">Telemóvel <span style="color:#C0392B;">*</span></label>
+            <input class="form-input" type="tel" id="telemovel" name="telemovel" placeholder="+351 9XX XXX XXX" autocomplete="tel" required />
+          </div>
+        </div>
+
+        <!-- Cartão de Cidadão -->
+        <div class="mb-5">
+          <label class="form-label" for="cartaoCidadao">Cartão de Cidadão <span style="color:#C0392B;">*</span></label>
+          <input class="form-input" type="text" id="cartaoCidadao" name="cartaoCidadao" placeholder="Número do cartão de cidadão" required />
+        </div>
+
+        <!-- Morada -->
+        <div class="mb-5">
+          <label class="form-label" for="morada">Morada</label>
+          <textarea class="form-input" id="morada" name="morada" placeholder="Rua, código postal, localidade"></textarea>
+        </div>
+
+        <!-- Tipo de sócio -->
+        <div class="mb-8" style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:2px; padding:20px;">
+          <label class="form-label mb-3">Tipo de sócio <span style="color:#C0392B;">*</span></label>
+          <div class="radio-group">
+            <div class="radio-pill">
+              <input type="radio" id="lic-nao" name="temLicenciatura" value="false" checked />
+              <label for="lic-nao">Sócio Geral</label>
+            </div>
+            <div class="radio-pill">
+              <input type="radio" id="lic-sim" name="temLicenciatura" value="true" />
+              <label for="lic-sim">Criminólogo/a</label>
+            </div>
+          </div>
+          <p style="color:rgba(255,255,255,0.3); font-size:0.75rem; margin-top:10px; line-height:1.6;">
+            Seleccione <strong style="color:rgba(255,255,255,0.5);">Criminólogo/a</strong> se possui licenciatura em Criminologia.
+          </p>
+        </div>
+
+        <!-- Consent -->
+        <div class="mb-8" style="display:flex; gap:12px; align-items:flex-start;">
+          <input type="checkbox" id="consent" required style="margin-top:3px; accent-color:#C0392B; width:15px; height:15px; flex-shrink:0; cursor:pointer;" />
+          <label for="consent" style="color:rgba(255,255,255,0.45); font-size:0.8rem; line-height:1.6; cursor:pointer;">
+            Autorizo o tratamento dos meus dados pessoais para efeitos de inscrição e gestão de associados, de acordo com a
+            <a href="politica-privacidade.html" target="_blank" style="color:rgba(192,57,43,0.8); text-decoration:underline;">Política de Privacidade</a> da APC.
+          </label>
+        </div>
+
+        <button type="submit" class="btn-primary" id="submit-btn">
+          Enviar Pedido de Inscrição
+        </button>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer style="background:#0d1620; border-top:1px solid rgba(255,255,255,0.05); padding:60px 0 32px;">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+      <div>
+        <img src="logotopo.png" alt="APC" class="h-10 w-auto mb-4 brightness-110" />
+        <p class="footer-link text-xs leading-relaxed">Associação Portuguesa de Criminologia<br />fundada em 2011.</p>
+      </div>
+      <div>
+        <p class="footer-link font-semibold text-xs uppercase tracking-widest mb-4">Links</p>
+        <a href="index.html#sobre"      class="footer-link block mb-2">Sobre a APC</a>
+        <a href="noticias.html"         class="footer-link block mb-2">Notícias</a>
+        <a href="protocolos.html"       class="footer-link block mb-2">Protocolos</a>
+        <a href="conselho.html"         class="footer-link block mb-2">Conselho Consultivo</a>
+        <a href="inscricao.html"     class="footer-link block mb-2">Ser Sócio</a>
+      </div>
+      <div>
+        <p class="footer-link font-semibold text-xs uppercase tracking-widest mb-4">Contacto</p>
+        <p class="footer-link text-xs mb-2">Av. Infante Dom Henrique, loja 3<br />4480-670 Vila do Conde</p>
+        <a href="mailto:apcriminologia@gmail.com" class="footer-link block text-xs hover:text-white mb-2">apcriminologia@gmail.com</a>
+        <p class="footer-link text-xs">+351 917 042 200</p>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.05); padding-top:24px; display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:center;">
+      <p class="footer-link text-xs">© 2025 Associação Portuguesa de Criminologia. Todos os direitos reservados.</p>
+      <a href="politica-privacidade.html" class="footer-link text-xs">Política de Privacidade</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Mobile menu ──
+  document.getElementById('open-menu')?.addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.add('open')
+    document.body.style.overflow = 'hidden'
+  })
+  document.getElementById('close-menu')?.addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.remove('open')
+    document.body.style.overflow = ''
+  })
+
+  // ── Photo upload ──
+  const fotoInput = document.getElementById('foto-input')
+  const fotoDrop  = document.getElementById('foto-drop')
+  const fotoPreview = document.getElementById('foto-preview')
+  const fotoPlaceholder = document.getElementById('foto-placeholder')
+
+  function showPreview(file) {
+    if (!file || !file.type.startsWith('image/')) return
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      fotoPreview.src = e.target.result
+      fotoPreview.style.display = 'block'
+      fotoPlaceholder.style.display = 'none'
+      fotoDrop.style.minHeight = '260px'
+    }
+    reader.readAsDataURL(file)
+  }
+
+  fotoInput.addEventListener('change', () => showPreview(fotoInput.files[0]))
+
+  fotoDrop.addEventListener('dragover', (e) => { e.preventDefault(); fotoDrop.classList.add('drag') })
+  fotoDrop.addEventListener('dragleave', () => fotoDrop.classList.remove('drag'))
+  fotoDrop.addEventListener('drop', (e) => {
+    e.preventDefault()
+    fotoDrop.classList.remove('drag')
+    const file = e.dataTransfer.files[0]
+    if (file) {
+      const dt = new DataTransfer()
+      dt.items.add(file)
+      fotoInput.files = dt.files
+      showPreview(file)
+    }
+  })
+
+  // ── Form submit ──
+  const form     = document.getElementById('inscricao-form')
+  const submitBtn = document.getElementById('submit-btn')
+  const alertError = document.getElementById('alert-error')
+  const formCard = document.getElementById('form-card')
+  const successCard = document.getElementById('success-card')
+
+  function showError(msg) {
+    alertError.textContent = msg
+    alertError.style.display = 'block'
+    alertError.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  }
+  function hideError() { alertError.style.display = 'none' }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault()
+    hideError()
+
+    if (!fotoInput.files[0]) return showError('Por favor seleccione uma fotografia.')
+    if (!document.querySelector('input[name="genero"]:checked')) return showError('Por favor seleccione o género.')
+    if (!document.getElementById('consent').checked) return showError('É necessário aceitar a política de privacidade.')
+
+    submitBtn.disabled = true
+    submitBtn.classList.add('loading')
+
+    try {
+      const formData = new FormData(form)
+      const res = await fetch('/api/inscricao', { method: 'POST', body: formData })
+      const data = await res.json()
+
+      if (!res.ok) throw new Error(data.error || 'Erro desconhecido')
+
+      formCard.style.display = 'none'
+      successCard.style.display = 'block'
+      successCard.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    } catch (err) {
+      showError(err.message || 'Ocorreu um erro. Por favor tente mais tarde.')
+      submitBtn.disabled = false
+      submitBtn.classList.remove('loading')
+    }
+  })
+</script>
+</body>
+</html>

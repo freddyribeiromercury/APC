@@ -1,0 +1,18 @@
+{
+  "name": "apc-studio",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build",
+    "deploy": "sanity deploy"
+  },
+  "dependencies": {
+    "@sanity/icons": "^3.5.7",
+    "@sanity/vision": "^3.86.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sanity": "^3.86.0",
+    "styled-components": "^6.1.13"
+  }
+}
