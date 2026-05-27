@@ -1,7 +1,7 @@
 import satori from 'satori'
 import sharp from 'sharp'
 
-const FONT_BASE = 'https://cdn.jsdelivr.net/npm/@fontsource/inter@5/files'
+const INTER_BASE = 'https://cdn.jsdelivr.net/gh/rsms/inter@v3.19.4/font-files'
 
 async function fetchArrayBuffer(url) {
   const res = await fetch(url)
@@ -204,9 +204,9 @@ export async function generateCard({ nome, genero, temLicenciatura, numeroSocio,
   const base = siteUrl || 'https://apcriminologia.com'
 
   const [fontRegular, fontBold, fontExtrabold, fotoDataUrl, logoDataUrl] = await Promise.all([
-    fetchArrayBuffer(`${FONT_BASE}/inter-latin-400-normal.woff2`),
-    fetchArrayBuffer(`${FONT_BASE}/inter-latin-700-normal.woff2`),
-    fetchArrayBuffer(`${FONT_BASE}/inter-latin-800-normal.woff2`),
+    fetchArrayBuffer(`${INTER_BASE}/Inter-Regular.otf`),
+    fetchArrayBuffer(`${INTER_BASE}/Inter-Bold.otf`),
+    fetchArrayBuffer(`${INTER_BASE}/Inter-ExtraBold.otf`),
     fetchImageAsDataUrl(fotoUrl),
     fetchImageAsDataUrl(`${base}/logotopo.png`).catch(() => null),
   ])
