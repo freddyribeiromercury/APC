@@ -1,13 +1,6 @@
 import satori from 'satori'
 import sharp from 'sharp'
 
-async function fetchArrayBuffer(url) {
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`)
-  return res.arrayBuffer()
-}
-
-// Old user-agent forces Google Fonts to return TTF (not WOFF2) which satori requires
 async function fetchGoogleFont(family, weight) {
   const css = await fetch(
     `https://fonts.googleapis.com/css?family=${family}:${weight}`,
@@ -26,8 +19,8 @@ async function fetchImageAsDataUrl(url) {
   return `data:${ct};base64,${buf.toString('base64')}`
 }
 
-function cardElement({ nome, titulo, numLabel, bgColor, fotoDataUrl, logoDataUrl }) {
-  const nameFontSize = nome.length > 24 ? 36 : nome.length > 18 ? 42 : 50
+function cardElement({ nome, titulo, numLabel, accentColor, panelBg, rightBg, fotoDataUrl, logoDataUrl }) {
+  const nameFontSize = nome.length > 24 ? 30 : nome.length > 18 ? 36 : 42
 
   return {
     type: 'div',
@@ -35,116 +28,165 @@ function cardElement({ nome, titulo, numLabel, bgColor, fotoDataUrl, logoDataUrl
       style: {
         width: '856px',
         height: '540px',
-        backgroundColor: bgColor,
-        borderRadius: '34px',
         display: 'flex',
         flexDirection: 'column',
         fontFamily: 'Inter',
+        borderRadius: '24px',
         overflow: 'hidden',
       },
       children: [
+        // Main row
         {
           type: 'div',
           props: {
-            style: {
-              display: 'flex',
-              flex: '1',
-              padding: '28px 36px',
-              gap: '32px',
-              alignItems: 'center',
-            },
+            style: { display: 'flex', flex: '1' },
             children: [
-              // Photo
-              {
-                type: 'img',
-                props: {
-                  src: fotoDataUrl,
-                  width: 230,
-                  height: 340,
-                  style: {
-                    width: '230px',
-                    height: '340px',
-                    objectFit: 'cover',
-                    borderRadius: '18px',
-                    border: '6px solid #1a2966',
-                    flexShrink: '0',
-                  },
-                },
-              },
-              // Right content
+              // LEFT dark panel — photo
               {
                 type: 'div',
                 props: {
                   style: {
+                    width: '296px',
+                    flexShrink: '0',
+                    backgroundColor: panelBg,
                     display: 'flex',
-                    flexDirection: 'column',
-                    flex: '1',
+                    alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '16px',
+                    position: 'relative',
                   },
                   children: [
-                    // Logo + org name
+                    // top accent stripe
+                    {
+                      type: 'div',
+                      props: {
+                        style: {
+                          position: 'absolute',
+                          top: '0', left: '0', right: '0',
+                          height: '4px',
+                          backgroundColor: accentColor,
+                        },
+                      },
+                    },
+                    // photo
+                    {
+                      type: 'img',
+                      props: {
+                        src: fotoDataUrl,
+                        width: 200,
+                        height: 280,
+                        style: {
+                          width: '200px',
+                          height: '280px',
+                          objectFit: 'cover',
+                          borderRadius: '14px',
+                          border: `4px solid ${accentColor}`,
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+              // RIGHT panel — content
+              {
+                type: 'div',
+                props: {
+                  style: {
+                    flex: '1',
+                    backgroundColor: rightBg,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: '36px 44px 28px 44px',
+                    position: 'relative',
+                  },
+                  children: [
+                    // top accent stripe
+                    {
+                      type: 'div',
+                      props: {
+                        style: {
+                          position: 'absolute',
+                          top: '0', left: '0', right: '0',
+                          height: '4px',
+                          backgroundColor: accentColor,
+                        },
+                      },
+                    },
+                    // Logo
+                    ...(logoDataUrl ? [{
+                      type: 'div',
+                      props: {
+                        style: { display: 'flex', width: '100%' },
+                        children: [{
+                          type: 'img',
+                          props: {
+                            src: logoDataUrl,
+                            width: 344,
+                            height: 88,
+                            style: {
+                              width: '344px',
+                              height: '88px',
+                              objectFit: 'contain',
+                            },
+                          },
+                        }],
+                      },
+                    }] : [{
+                      type: 'div',
+                      props: {
+                        style: { display: 'flex', flexDirection: 'column' },
+                        children: [
+                          { type: 'div', props: { style: { fontSize: '15px', fontWeight: '700', color: '#0d1926' }, children: 'Associação Portuguesa' } },
+                          { type: 'div', props: { style: { fontSize: '15px', fontWeight: '700', color: '#0d1926' }, children: 'de Criminologia' } },
+                        ],
+                      },
+                    }]),
+                    // spacer
+                    { type: 'div', props: { style: { flex: '1' } } },
+                    // name + title
+                    {
+                      type: 'div',
+                      props: {
+                        style: { display: 'flex', flexDirection: 'column', gap: '6px' },
+                        children: [
+                          {
+                            type: 'div',
+                            props: {
+                              style: { fontSize: `${nameFontSize}px`, fontWeight: '800', color: '#111820', lineHeight: '1.1' },
+                              children: nome,
+                            },
+                          },
+                          ...(titulo ? [{
+                            type: 'div',
+                            props: {
+                              style: { fontSize: '16px', fontWeight: '600', color: accentColor, letterSpacing: '0.12em' },
+                              children: titulo.toUpperCase(),
+                            },
+                          }] : []),
+                        ],
+                      },
+                    },
+                    // spacer
+                    { type: 'div', props: { style: { height: '22px' } } },
+                    // number with accent bar
                     {
                       type: 'div',
                       props: {
                         style: { display: 'flex', alignItems: 'center', gap: '14px' },
                         children: [
-                          ...(logoDataUrl ? [{
-                            type: 'img',
-                            props: {
-                              src: logoDataUrl,
-                              width: 52,
-                              height: 52,
-                              style: { width: '52px', height: '52px', objectFit: 'contain' },
-                            },
-                          }] : []),
                           {
                             type: 'div',
                             props: {
-                              style: { display: 'flex', flexDirection: 'column' },
-                              children: [
-                                {
-                                  type: 'div',
-                                  props: {
-                                    style: { fontSize: '19px', fontWeight: '700', color: '#0d0d0d', lineHeight: '1.25' },
-                                    children: 'Associação Portuguesa',
-                                  },
-                                },
-                                {
-                                  type: 'div',
-                                  props: {
-                                    style: { fontSize: '19px', fontWeight: '700', color: '#0d0d0d', lineHeight: '1.25' },
-                                    children: 'de Criminologia',
-                                  },
-                                },
-                              ],
+                              style: { width: '3px', height: '32px', borderRadius: '2px', backgroundColor: accentColor },
+                            },
+                          },
+                          {
+                            type: 'div',
+                            props: {
+                              style: { fontSize: '24px', fontWeight: '700', color: '#111820' },
+                              children: numLabel,
                             },
                           },
                         ],
-                      },
-                    },
-                    // Name
-                    {
-                      type: 'div',
-                      props: {
-                        style: { fontSize: `${nameFontSize}px`, fontWeight: '800', color: '#0d0d0d', lineHeight: '1.1' },
-                        children: nome,
-                      },
-                    },
-                    // Title (criminologists only)
-                    ...(titulo ? [{
-                      type: 'div',
-                      props: {
-                        style: { fontSize: '30px', fontWeight: '400', color: '#2a2a2a' },
-                        children: titulo,
-                      },
-                    }] : []),
-                    // Member number
-                    {
-                      type: 'div',
-                      props: {
-                        style: { fontSize: '36px', fontWeight: '700', color: '#0d0d0d' },
-                        children: numLabel,
                       },
                     },
                   ],
@@ -153,52 +195,43 @@ function cardElement({ nome, titulo, numLabel, bgColor, fotoDataUrl, logoDataUrl
             ],
           },
         },
-        // Footer
+        // Footer bar
         {
           type: 'div',
           props: {
             style: {
+              height: '46px',
+              backgroundColor: panelBg,
               display: 'flex',
-              justifyContent: 'space-between',
               alignItems: 'center',
-              padding: '12px 36px',
-              borderTop: '1px solid rgba(0,0,0,0.18)',
+              justifyContent: 'space-between',
+              padding: '0 32px',
             },
             children: [
               {
                 type: 'div',
                 props: {
-                  style: { display: 'flex', gap: '8px', alignItems: 'center' },
+                  style: { fontSize: '12px', fontWeight: '400', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.04em' },
+                  children: 'apcriminologia.com',
+                },
+              },
+              // three dots
+              {
+                type: 'div',
+                props: {
+                  style: { display: 'flex', gap: '5px', alignItems: 'center' },
                   children: [
-                    {
-                      type: 'div',
-                      props: {
-                        style: { width: '30px', height: '30px', borderRadius: '6px', backgroundColor: '#1877F2', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '20px', fontWeight: '800' },
-                        children: 'f',
-                      },
-                    },
-                    {
-                      type: 'div',
-                      props: {
-                        style: { width: '30px', height: '30px', borderRadius: '6px', backgroundColor: '#2a2a2a', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '16px', fontWeight: '600' },
-                        children: '@',
-                      },
-                    },
-                    {
-                      type: 'div',
-                      props: {
-                        style: { width: '30px', height: '30px', borderRadius: '6px', backgroundColor: '#4a5568', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontSize: '13px', fontWeight: '700' },
-                        children: 'www',
-                      },
-                    },
+                    { type: 'div', props: { style: { width: '5px', height: '5px', borderRadius: '50%', backgroundColor: accentColor } } },
+                    { type: 'div', props: { style: { width: '5px', height: '5px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.2)' } } },
+                    { type: 'div', props: { style: { width: '5px', height: '5px', borderRadius: '50%', backgroundColor: 'rgba(255,255,255,0.2)' } } },
                   ],
                 },
               },
               {
                 type: 'div',
                 props: {
-                  style: { fontSize: '15px', color: '#2a2a2a', fontWeight: '400' },
-                  children: 'apcriminologia@gmail.com  |  apcriminologia.com',
+                  style: { fontSize: '12px', fontWeight: '400', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.04em' },
+                  children: 'apcriminologia@gmail.com',
                 },
               },
             ],
@@ -217,16 +250,20 @@ export async function generateCard({ nome, genero, temLicenciatura, numeroSocio,
     fetchGoogleFont('Inter', 700),
     fetchGoogleFont('Inter', 800),
     fetchImageAsDataUrl(fotoUrl),
-    fetchImageAsDataUrl(`${base}/logotopo.png`).catch(() => null),
+    fetchImageAsDataUrl(`${base}/logo_cartao.png`).catch(() => null),
   ])
 
-  const bgColor = temLicenciatura ? '#c8c8c8' : '#f5ca3c'
+  // Criminólogos: navy escuro + vermelho + fundo branco
+  // Associados: navy escuro + verde + fundo amarelo suave
+  const accentColor = temLicenciatura ? '#C0392B' : '#27AE60'
+  const panelBg     = '#111820'
+  const rightBg     = temLicenciatura ? '#ffffff' : '#FDF3C0'
   const titulo = temLicenciatura
     ? (genero === 'Feminino' ? 'Criminóloga' : 'Criminólogo')
     : null
-  const numLabel = temLicenciatura ? `N.º ${numeroSocio}` : `Sócio n.º ${numeroSocio}`
+  const numLabel = temLicenciatura ? `N.º ${numeroSocio}` : `Sócio N.º ${numeroSocio}`
 
-  const element = cardElement({ nome, titulo, numLabel, bgColor, fotoDataUrl, logoDataUrl })
+  const element = cardElement({ nome, titulo, numLabel, accentColor, panelBg, rightBg, fotoDataUrl, logoDataUrl })
 
   const svg = await satori(element, {
     width: 856,

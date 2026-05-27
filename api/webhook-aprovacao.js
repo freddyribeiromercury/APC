@@ -17,10 +17,12 @@ function verifySignature(rawBody, secret, signatureHeader) {
     if (!timestamp || !v1) return false
     const hmac = crypto.createHmac('sha256', secret)
     hmac.update(`${timestamp}.${rawBody}`)
-    const expected = hmac.digest('base64')
-    // normalise base64url → base64 for comparison
+    const expected = hmac.digest()
+    // normalise base64url → base64 then decode for timing-safe comparison
     const v1b64 = v1.replace(/-/g, '+').replace(/_/g, '/')
-    return crypto.timingSafeEqual(Buffer.from(v1b64), Buffer.from(expected))
+    const received = Buffer.from(v1b64, 'base64')
+    if (received.length !== expected.length) return false
+    return crypto.timingSafeEqual(received, expected)
   } catch {
     return false
   }

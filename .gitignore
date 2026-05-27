@@ -17,3 +17,5 @@ studio/.sanity/
 
 # OS
 .DS_Store
+.vercel
+card_preview.png
