@@ -15,10 +15,7 @@ async function fetchGoogleFont(family, weight) {
   ).then(r => r.text())
   const url = css.match(/src: url\((.+?)\)/)?.[1]
   if (!url) throw new Error(`Font URL not found for ${family}:${weight}`)
-  const buf = await fetch(url).then(r => r.arrayBuffer())
-  const bytes = new Uint8Array(buf).slice(0, 4)
-  console.log(`[font] ${family}:${weight} url=${url.slice(-30)} size=${buf.byteLength} sig=${Array.from(bytes).map(b => b.toString(16).padStart(2,'0')).join(' ')}`)
-  return buf
+  return fetch(url).then(r => r.arrayBuffer())
 }
 
 async function fetchImageAsDataUrl(url) {
