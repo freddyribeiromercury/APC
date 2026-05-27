@@ -198,8 +198,6 @@
     <!-- Form card -->
     <div id="form-card" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:4px; padding:40px;">
 
-      <div id="alert-error" class="alert alert-error mb-6"></div>
-
       <form id="inscricao-form" novalidate>
 
         <!-- Foto -->
@@ -290,6 +288,8 @@
             <a href="politica-privacidade.html" target="_blank" style="color:rgba(192,57,43,0.8); text-decoration:underline;">Política de Privacidade</a> da APC.
           </label>
         </div>
+
+        <div id="alert-error" class="alert alert-error mb-4"></div>
 
         <button type="submit" class="btn-primary" id="submit-btn">
           Enviar Pedido de Inscrição
@@ -385,7 +385,7 @@
   function showError(msg) {
     alertError.textContent = msg
     alertError.style.display = 'block'
-    alertError.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    alertError.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
   function hideError() { alertError.style.display = 'none' }
 
@@ -393,8 +393,39 @@
     e.preventDefault()
     hideError()
 
-    if (!fotoInput.files[0]) return showError('Por favor seleccione uma fotografia.')
-    if (!document.querySelector('input[name="genero"]:checked')) return showError('Por favor seleccione o género.')
+    // Reset previous highlights
+    document.querySelectorAll('.form-input').forEach(el => el.style.borderColor = '')
+    fotoDrop.style.borderColor = ''
+
+    const nome = document.getElementById('nome').value.trim()
+    const email = document.getElementById('email').value.trim()
+    const telemovel = document.getElementById('telemovel').value.trim()
+    const cartaoCidadao = document.getElementById('cartaoCidadao').value.trim()
+
+    if (!fotoInput.files[0]) {
+      fotoDrop.style.borderColor = '#C0392B'
+      return showError('Por favor seleccione uma fotografia.')
+    }
+    if (!nome) {
+      document.getElementById('nome').style.borderColor = '#C0392B'
+      document.getElementById('nome').focus()
+      return showError('Por favor preencha o nome completo.')
+    }
+    if (!document.querySelector('input[name="genero"]:checked')) {
+      return showError('Por favor seleccione o género.')
+    }
+    if (!email) {
+      document.getElementById('email').style.borderColor = '#C0392B'
+      return showError('Por favor preencha o email.')
+    }
+    if (!telemovel) {
+      document.getElementById('telemovel').style.borderColor = '#C0392B'
+      return showError('Por favor preencha o telemóvel.')
+    }
+    if (!cartaoCidadao) {
+      document.getElementById('cartaoCidadao').style.borderColor = '#C0392B'
+      return showError('Por favor preencha o cartão de cidadão.')
+    }
     if (!document.getElementById('consent').checked) return showError('É necessário aceitar a política de privacidade.')
 
     submitBtn.disabled = true
