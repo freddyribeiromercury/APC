@@ -86,7 +86,7 @@
       background: rgba(255,255,255,0.04); cursor: pointer;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       gap: 10px; transition: border-color 0.2s, background 0.2s;
-      aspect-ratio: 4/5; max-height: 380px; position: relative; overflow: hidden;
+      aspect-ratio: 4/5; width: 180px; max-width: 100%; position: relative; overflow: hidden;
     }
     #foto-drop:hover, #foto-drop.drag { border-color: rgba(192,57,43,0.7); background: rgba(192,57,43,0.06); }
     #foto-preview { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; display: none; border-radius: 2px; }
@@ -195,6 +195,70 @@
       </p>
     </div>
 
+    <!-- Condições -->
+    <div id="condicoes" class="mb-8">
+      <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:4px; padding:32px 40px;">
+        <p class="section-label mb-3">Antes de começar</p>
+        <h2 class="font-display text-white mb-5" style="font-size:1.6rem; font-weight:600;">Condições de Inscrição</h2>
+
+        <div class="space-y-3 mb-2">
+          <div class="flex items-start gap-3">
+            <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:rgba(39,174,96,0.2); border:1px solid #27AE60;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#27AE60" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <p class="text-white/70 text-sm leading-relaxed">Ser aluno da Licenciatura em Criminologia ou ser Licenciado na área</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:rgba(39,174,96,0.2); border:1px solid #27AE60;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#27AE60" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <p class="text-white/70 text-sm leading-relaxed">Quota mensal de apenas €2 — pagamento por transferência bancária ou débito direto</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <div class="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:rgba(39,174,96,0.2); border:1px solid #27AE60;">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#27AE60" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <p class="text-white/70 text-sm leading-relaxed">Preencher o formulário de inscrição online e enviar documentação por email</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+        <!-- NIB card -->
+        <div style="background:linear-gradient(135deg,#2C4A5C,#1a2a36); border:1px solid rgba(255,255,255,0.1); border-radius:4px; padding:28px;">
+          <p class="text-xs font-bold tracking-widest uppercase text-white/40 mb-4">Dados para Pagamento</p>
+          <p class="text-xs text-white/50 mb-1">NIB para pagamento de cotas:</p>
+          <p class="font-display text-xl font-semibold text-white tracking-wide">0036 0483 9910 6000 44969</p>
+          <div style="height:1px; background:rgba(255,255,255,0.1); margin:20px 0;"></div>
+          <p class="text-xs text-white/50 mb-1">Débito direto:</p>
+          <p class="text-sm text-white/80">Contacte-nos via email para configurar</p>
+          <a href="mailto:apcriminologia@gmail.com" class="text-sm font-semibold mt-1 block" style="color:#27AE60;">apcriminologia@gmail.com</a>
+        </div>
+
+        <!-- Document checklist -->
+        <div style="background:#0d1620; border:1px solid rgba(255,255,255,0.08); border-radius:4px; padding:28px;">
+          <p class="text-xs font-bold tracking-widest uppercase text-white/40 mb-4">Documentação Necessária</p>
+          <div class="space-y-3">
+            <div class="flex items-start gap-3">
+              <div class="w-4 h-4 flex-shrink-0 mt-0.5" style="border:1px solid rgba(255,255,255,0.2); border-radius:1px;"></div>
+              <p class="text-white/60 text-xs leading-relaxed">Boletim de inscrição do corrente ano letivo / Certificado de Licenciatura</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-4 h-4 flex-shrink-0 mt-0.5" style="border:1px solid rgba(255,255,255,0.2); border-radius:1px;"></div>
+              <p class="text-white/60 text-xs leading-relaxed">Comprovativo de transferência bancária para pagamento de quotas</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-4 h-4 flex-shrink-0 mt-0.5" style="border:1px solid rgba(255,255,255,0.2); border-radius:1px;"></div>
+              <p class="text-white/60 text-xs leading-relaxed">Fotografia tipo passe</p>
+            </div>
+          </div>
+          <p class="text-white/30 text-xs mt-4 leading-relaxed">
+            Enviar todos os documentos para apcriminologia@gmail.com. A inscrição só fica validada após receção e confirmação de todos os documentos.
+          </p>
+        </div>
+      </div>
+    </div>
+
     <!-- Form card -->
     <div id="form-card" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:4px; padding:40px;">
 
@@ -205,13 +269,13 @@
           <label class="form-label">Fotografia <span style="color:#C0392B;">*</span></label>
           <div id="foto-drop" onclick="document.getElementById('foto-input').click()">
             <img id="foto-preview" alt="Preview da foto" />
-            <div id="foto-placeholder" style="text-align:center; padding:20px;">
-              <svg width="36" height="36" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 10px; display:block;">
+            <div id="foto-placeholder" style="text-align:center; padding:14px;">
+              <svg width="26" height="26" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 8px; display:block;">
                 <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
                 <path d="M21 15l-5-5L5 21"/>
               </svg>
-              <p style="color:rgba(255,255,255,0.4); font-size:0.82rem;">Clique ou arraste a sua fotografia</p>
-              <p style="color:rgba(255,255,255,0.25); font-size:0.74rem; margin-top:4px;">JPG ou PNG · Máx. 5 MB</p>
+              <p style="color:rgba(255,255,255,0.4); font-size:0.75rem; line-height:1.4;">Clique ou arraste a sua fotografia</p>
+              <p style="color:rgba(255,255,255,0.25); font-size:0.68rem; margin-top:4px;">JPG ou PNG · Máx. 5 MB</p>
             </div>
           </div>
           <input type="file" id="foto-input" name="foto" accept="image/jpeg,image/png,image/webp" style="display:none;" required />
@@ -439,6 +503,7 @@
       if (!res.ok) throw new Error(data.error || 'Erro desconhecido')
 
       formCard.style.display = 'none'
+      document.getElementById('condicoes').style.display = 'none'
       successCard.style.display = 'block'
       successCard.scrollIntoView({ behavior: 'smooth', block: 'center' })
     } catch (err) {
