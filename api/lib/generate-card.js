@@ -14,8 +14,13 @@ async function fetchGoogleFont(family, weight) {
 async function fetchImageAsDataUrl(url) {
   const res = await fetch(url)
   if (!res.ok) throw new Error(`Failed to fetch image ${url}: ${res.status}`)
+  const ct = res.headers.get('content-type') || ''
+  // A host that answers 200 with an HTML page (SPA fallback, login wall) would
+  // otherwise reach satori as a data:text/html URL and fail as "u is not iterable".
+  if (!ct.startsWith('image/')) {
+    throw new Error(`Not an image: ${url} returned ${ct || 'no content-type'}`)
+  }
   const buf = Buffer.from(await res.arrayBuffer())
-  const ct = res.headers.get('content-type') || 'image/jpeg'
   return `data:${ct};base64,${buf.toString('base64')}`
 }
 

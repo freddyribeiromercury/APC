@@ -54,21 +54,19 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Assign member number (series starts at 2000)
-    const maxNumero = await sanity.fetch(
-      `*[_type == "membro" && defined(numeroSocio)] | order(numeroSocio desc)[0].numeroSocio`
-    )
-    const numeroSocio = Math.max(maxNumero ?? 1999, 1999) + 1
-
-    // Immediately mark as sent to prevent duplicates on retry
-    await sanity
-      .patch(doc._id)
-      .set({
-        numeroSocio,
-        cartaoEnviado: true,
-        dataAprovacao: new Date().toISOString(),
-      })
-      .commit()
+    // Assign member number (series starts at 2000). A retry after a failed send
+    // must keep the number already assigned instead of burning a new one.
+    let numeroSocio = doc.numeroSocio
+    if (!numeroSocio) {
+      const maxNumero = await sanity.fetch(
+        `*[_type == "membro" && defined(numeroSocio)] | order(numeroSocio desc)[0].numeroSocio`
+      )
+      numeroSocio = Math.max(maxNumero ?? 1999, 1999) + 1
+      await sanity
+        .patch(doc._id)
+        .set({ numeroSocio, dataAprovacao: new Date().toISOString() })
+        .commit()
+    }
 
     // Generate card
     const fotoUrl = imageUrl(doc.foto).width(400).height(500).fit('crop').url()
@@ -109,7 +107,14 @@ export default async function handler(req, res) {
       ],
     })
 
-    if (emailError) console.error('[webhook-aprovacao] Resend error:', emailError)
+    // Fail loudly: cartaoEnviado stays false, so fixing the cause and
+    // republishing in the Studio retries the send.
+    if (emailError) {
+      throw new Error(`Resend: ${emailError.message || JSON.stringify(emailError)}`)
+    }
+
+    // Only mark as sent once Resend has actually accepted the message.
+    await sanity.patch(doc._id).set({ cartaoEnviado: true }).commit()
 
     return res.json({ success: true, numeroSocio })
   } catch (err) {
