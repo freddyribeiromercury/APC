@@ -57,65 +57,17 @@
     @media (max-width: 768px) { .desktop-nav { display: none; } .mobile-toggle { display: flex !important; } }
     @media (min-width: 769px) { .mobile-toggle { display: none !important; } }
 
-    /* ── Form ── */
-    .form-label { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 6px; }
-    .form-input {
-      width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 2px; padding: 10px 14px; color: #fff; font-size: 0.9rem;
-      font-family: 'Plus Jakarta Sans', sans-serif; transition: border-color 0.2s, background 0.2s;
-      outline: none;
-    }
-    .form-input:focus { border-color: rgba(192,57,43,0.7); background: rgba(255,255,255,0.09); }
-    .form-input::placeholder { color: rgba(255,255,255,0.25); }
-    textarea.form-input { resize: vertical; min-height: 80px; }
-
-    /* Radio pills */
-    .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
-    .radio-pill input[type=radio] { display: none; }
-    .radio-pill label {
-      display: inline-block; padding: 7px 18px; border-radius: 2px; cursor: pointer;
-      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em;
-      border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.6);
-      transition: all 0.2s;
-    }
-    .radio-pill input[type=radio]:checked + label { background: #C0392B; border-color: #C0392B; color: #fff; }
-
-    /* Photo upload */
-    #foto-drop {
-      border: 2px dashed rgba(255,255,255,0.18); border-radius: 4px;
-      background: rgba(255,255,255,0.04); cursor: pointer;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 10px; transition: border-color 0.2s, background 0.2s;
-      aspect-ratio: 4/5; width: 180px; max-width: 100%; position: relative; overflow: hidden;
-    }
-    #foto-drop:hover, #foto-drop.drag { border-color: rgba(192,57,43,0.7); background: rgba(192,57,43,0.06); }
-    #foto-preview { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; display: none; border-radius: 2px; }
-
-    /* Submit button */
+    /* Inscrever button */
     .btn-primary {
       background: #C0392B; color: #fff; border: none; padding: 14px 36px;
       font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.8rem; font-weight: 700;
       letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer;
       border-radius: 2px; transition: background 0.2s, transform 0.15s; width: 100%;
     }
-    .btn-primary:hover:not(:disabled) { background: #96281b; }
-    .btn-primary:disabled { background: rgba(192,57,43,0.4); cursor: not-allowed; }
-    .btn-primary.loading { position: relative; color: transparent; }
-    .btn-primary.loading::after {
-      content: ''; position: absolute; inset: 50% 50% auto auto;
-      margin: -10px -10px 0 0; width: 20px; height: 20px; border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn-primary:hover { background: #96281b; }
 
     .accent-line { width: 60px; height: 3px; background: linear-gradient(90deg,#C0392B,#27AE60); border-radius: 2px; }
     .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #C0392B; }
-
-    /* Alert boxes */
-    .alert { padding: 14px 18px; border-radius: 2px; font-size: 0.85rem; display: none; }
-    .alert-success { background: rgba(39,174,96,0.15); border: 1px solid rgba(39,174,96,0.4); color: #27AE60; }
-    .alert-error { background: rgba(192,57,43,0.15); border: 1px solid rgba(192,57,43,0.4); color: #e74c3c; }
     .footer-link { color: rgba(255,255,255,0.5); font-size: 0.8rem; transition: color 0.2s; }
     .footer-link:hover { color: #fff; }
   </style>
@@ -262,104 +214,9 @@
     <!-- Form card -->
     <div id="form-card" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:4px; padding:40px;">
 
-      <form id="inscricao-form" novalidate>
-
-        <!-- Foto -->
-        <div class="mb-8">
-          <label class="form-label">Fotografia <span style="color:#C0392B;">*</span></label>
-          <div id="foto-drop" onclick="document.getElementById('foto-input').click()">
-            <img id="foto-preview" alt="Preview da foto" />
-            <div id="foto-placeholder" style="text-align:center; padding:14px;">
-              <svg width="26" height="26" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 8px; display:block;">
-                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-                <path d="M21 15l-5-5L5 21"/>
-              </svg>
-              <p style="color:rgba(255,255,255,0.4); font-size:0.75rem; line-height:1.4;">Clique ou arraste a sua fotografia</p>
-              <p style="color:rgba(255,255,255,0.25); font-size:0.68rem; margin-top:4px;">JPG ou PNG · Máx. 5 MB</p>
-            </div>
-          </div>
-          <input type="file" id="foto-input" name="foto" accept="image/jpeg,image/png,image/webp" style="display:none;" required />
-        </div>
-
-        <!-- Nome -->
-        <div class="mb-5">
-          <label class="form-label" for="nome">Nome Completo <span style="color:#C0392B;">*</span></label>
-          <input class="form-input" type="text" id="nome" name="nome" placeholder="Nome e apelido" autocomplete="name" required />
-        </div>
-
-        <!-- Género -->
-        <div class="mb-5">
-          <label class="form-label">Género <span style="color:#C0392B;">*</span></label>
-          <div class="radio-group">
-            <div class="radio-pill">
-              <input type="radio" id="gen-masc" name="genero" value="Masculino" required />
-              <label for="gen-masc">Masculino</label>
-            </div>
-            <div class="radio-pill">
-              <input type="radio" id="gen-fem" name="genero" value="Feminino" />
-              <label for="gen-fem">Feminino</label>
-            </div>
-          </div>
-        </div>
-
-        <!-- Email + Telemóvel -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
-          <div>
-            <label class="form-label" for="email">Email <span style="color:#C0392B;">*</span></label>
-            <input class="form-input" type="email" id="email" name="email" placeholder="email@exemplo.com" autocomplete="email" required />
-          </div>
-          <div>
-            <label class="form-label" for="telemovel">Telemóvel <span style="color:#C0392B;">*</span></label>
-            <input class="form-input" type="tel" id="telemovel" name="telemovel" placeholder="+351 9XX XXX XXX" autocomplete="tel" required />
-          </div>
-        </div>
-
-        <!-- Cartão de Cidadão -->
-        <div class="mb-5">
-          <label class="form-label" for="cartaoCidadao">Cartão de Cidadão <span style="color:#C0392B;">*</span></label>
-          <input class="form-input" type="text" id="cartaoCidadao" name="cartaoCidadao" placeholder="Número do cartão de cidadão" required />
-        </div>
-
-        <!-- Morada -->
-        <div class="mb-5">
-          <label class="form-label" for="morada">Morada</label>
-          <textarea class="form-input" id="morada" name="morada" placeholder="Rua, código postal, localidade"></textarea>
-        </div>
-
-        <!-- Tipo de sócio -->
-        <div class="mb-8" style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:2px; padding:20px;">
-          <label class="form-label mb-3">Tipo de sócio <span style="color:#C0392B;">*</span></label>
-          <div class="radio-group">
-            <div class="radio-pill">
-              <input type="radio" id="lic-nao" name="temLicenciatura" value="false" checked />
-              <label for="lic-nao">Sócio Geral</label>
-            </div>
-            <div class="radio-pill">
-              <input type="radio" id="lic-sim" name="temLicenciatura" value="true" />
-              <label for="lic-sim">Criminólogo/a</label>
-            </div>
-          </div>
-          <p style="color:rgba(255,255,255,0.3); font-size:0.75rem; margin-top:10px; line-height:1.6;">
-            Seleccione <strong style="color:rgba(255,255,255,0.5);">Criminólogo/a</strong> se possui licenciatura em Criminologia.
-          </p>
-        </div>
-
-        <!-- Consent -->
-        <div class="mb-8" style="display:flex; gap:12px; align-items:flex-start;">
-          <input type="checkbox" id="consent" required style="margin-top:3px; accent-color:#C0392B; width:15px; height:15px; flex-shrink:0; cursor:pointer;" />
-          <label for="consent" style="color:rgba(255,255,255,0.45); font-size:0.8rem; line-height:1.6; cursor:pointer;">
-            Autorizo o tratamento dos meus dados pessoais para efeitos de inscrição e gestão de associados, de acordo com a
-            <a href="politica-privacidade.html" target="_blank" style="color:rgba(192,57,43,0.8); text-decoration:underline;">Política de Privacidade</a> da APC.
-          </label>
-        </div>
-
-        <div id="alert-error" class="alert alert-error mb-4"></div>
-
-        <button type="submit" class="btn-primary" id="submit-btn">
-          Enviar Pedido de Inscrição
-        </button>
-
-      </form>
+      <a href="https://v5.quotagest.pt/app/510222978/inscricao/e34a534697ba11ef" target="_blank" rel="noopener noreferrer" class="btn-primary" style="display:block; text-align:center; text-decoration:none;">
+        Inscrever
+      </a>
     </div>
   </div>
 </div>
@@ -405,113 +262,6 @@
     document.body.style.overflow = ''
   })
 
-  // ── Photo upload ──
-  const fotoInput = document.getElementById('foto-input')
-  const fotoDrop  = document.getElementById('foto-drop')
-  const fotoPreview = document.getElementById('foto-preview')
-  const fotoPlaceholder = document.getElementById('foto-placeholder')
-
-  function showPreview(file) {
-    if (!file || !file.type.startsWith('image/')) return
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      fotoPreview.src = e.target.result
-      fotoPreview.style.display = 'block'
-      fotoPlaceholder.style.display = 'none'
-      fotoDrop.style.minHeight = ''
-    }
-    reader.readAsDataURL(file)
-  }
-
-  fotoInput.addEventListener('change', () => showPreview(fotoInput.files[0]))
-
-  fotoDrop.addEventListener('dragover', (e) => { e.preventDefault(); fotoDrop.classList.add('drag') })
-  fotoDrop.addEventListener('dragleave', () => fotoDrop.classList.remove('drag'))
-  fotoDrop.addEventListener('drop', (e) => {
-    e.preventDefault()
-    fotoDrop.classList.remove('drag')
-    const file = e.dataTransfer.files[0]
-    if (file) {
-      const dt = new DataTransfer()
-      dt.items.add(file)
-      fotoInput.files = dt.files
-      showPreview(file)
-    }
-  })
-
-  // ── Form submit ──
-  const form     = document.getElementById('inscricao-form')
-  const submitBtn = document.getElementById('submit-btn')
-  const alertError = document.getElementById('alert-error')
-  const formCard = document.getElementById('form-card')
-  const successCard = document.getElementById('success-card')
-
-  function showError(msg) {
-    alertError.textContent = msg
-    alertError.style.display = 'block'
-    alertError.scrollIntoView({ behavior: 'smooth', block: 'center' })
-  }
-  function hideError() { alertError.style.display = 'none' }
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault()
-    hideError()
-
-    // Reset previous highlights
-    document.querySelectorAll('.form-input').forEach(el => el.style.borderColor = '')
-    fotoDrop.style.borderColor = ''
-
-    const nome = document.getElementById('nome').value.trim()
-    const email = document.getElementById('email').value.trim()
-    const telemovel = document.getElementById('telemovel').value.trim()
-    const cartaoCidadao = document.getElementById('cartaoCidadao').value.trim()
-
-    if (!fotoInput.files[0]) {
-      fotoDrop.style.borderColor = '#C0392B'
-      return showError('Por favor seleccione uma fotografia.')
-    }
-    if (!nome) {
-      document.getElementById('nome').style.borderColor = '#C0392B'
-      document.getElementById('nome').focus()
-      return showError('Por favor preencha o nome completo.')
-    }
-    if (!document.querySelector('input[name="genero"]:checked')) {
-      return showError('Por favor seleccione o género.')
-    }
-    if (!email) {
-      document.getElementById('email').style.borderColor = '#C0392B'
-      return showError('Por favor preencha o email.')
-    }
-    if (!telemovel) {
-      document.getElementById('telemovel').style.borderColor = '#C0392B'
-      return showError('Por favor preencha o telemóvel.')
-    }
-    if (!cartaoCidadao) {
-      document.getElementById('cartaoCidadao').style.borderColor = '#C0392B'
-      return showError('Por favor preencha o cartão de cidadão.')
-    }
-    if (!document.getElementById('consent').checked) return showError('É necessário aceitar a política de privacidade.')
-
-    submitBtn.disabled = true
-    submitBtn.classList.add('loading')
-
-    try {
-      const formData = new FormData(form)
-      const res = await fetch('/api/inscricao', { method: 'POST', body: formData })
-      const data = await res.json()
-
-      if (!res.ok) throw new Error(data.error || 'Erro desconhecido')
-
-      formCard.style.display = 'none'
-      document.getElementById('condicoes').style.display = 'none'
-      successCard.style.display = 'block'
-      successCard.scrollIntoView({ behavior: 'smooth', block: 'center' })
-    } catch (err) {
-      showError(err.message || 'Ocorreu um erro. Por favor tente mais tarde.')
-      submitBtn.disabled = false
-      submitBtn.classList.remove('loading')
-    }
-  })
 </script>
 </body>
 </html>
