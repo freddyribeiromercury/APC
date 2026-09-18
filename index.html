@@ -758,15 +758,15 @@
       <!-- Contact form -->
       <div class="lg:col-span-2 reveal" style="transition-delay:0.2s; background:#111820; padding:40px; border-radius:2px;">
         <p class="text-white/60 text-sm mb-6" data-pt="Envie-nos uma mensagem" data-en="Send us a message">Envie-nos uma mensagem</p>
-        <form class="space-y-4" onsubmit="return false;">
+        <form id="contact-form" class="space-y-4">
           <div class="grid md:grid-cols-2 gap-4">
             <div>
               <label for="contact-nome" class="text-xs font-bold tracking-widest uppercase text-white/40 block mb-2" data-pt="Nome" data-en="Name">Nome</label>
-              <input id="contact-nome" type="text" class="form-input" placeholder="O seu nome" data-pt-placeholder="O seu nome" data-en-placeholder="Your name" />
+              <input id="contact-nome" type="text" required class="form-input" placeholder="O seu nome" data-pt-placeholder="O seu nome" data-en-placeholder="Your name" />
             </div>
             <div>
               <label for="contact-email" class="text-xs font-bold tracking-widest uppercase text-white/40 block mb-2" data-pt="Email" data-en="Email">Email</label>
-              <input id="contact-email" type="email" class="form-input" placeholder="email@exemplo.com" />
+              <input id="contact-email" type="email" required class="form-input" placeholder="email@exemplo.com" />
             </div>
           </div>
           <div>
@@ -775,14 +775,15 @@
           </div>
           <div>
             <label for="contact-mensagem" class="text-xs font-bold tracking-widest uppercase text-white/40 block mb-2" data-pt="Mensagem" data-en="Message">Mensagem</label>
-            <textarea id="contact-mensagem" class="form-input" rows="5" placeholder="A sua mensagem..." data-pt-placeholder="A sua mensagem..." data-en-placeholder="Your message..."></textarea>
+            <textarea id="contact-mensagem" required class="form-input" rows="5" placeholder="A sua mensagem..." data-pt-placeholder="A sua mensagem..." data-en-placeholder="Your message..."></textarea>
           </div>
-          <button type="submit" class="w-full py-3 text-sm font-bold tracking-widest uppercase text-white"
+          <button type="submit" id="contact-submit" class="w-full py-3 text-sm font-bold tracking-widest uppercase text-white"
                   style="background:#C0392B; transition:background 0.2s; border-radius:2px;"
                   onmouseover="this.style.background='#96281b'" onmouseout="this.style.background='#C0392B'"
                   data-pt="Enviar Mensagem" data-en="Send Message">
             Enviar Mensagem
           </button>
+          <p id="contact-status" class="text-sm" style="display:none;"></p>
         </form>
       </div>
     </div>
@@ -912,6 +913,46 @@
   setTimeout(() => {
     document.querySelectorAll('#hero .reveal').forEach(el => el.classList.add('visible'));
   }, 100);
+
+  // ── Contact form ──
+  const contactForm = document.getElementById('contact-form');
+  const contactStatus = document.getElementById('contact-status');
+  const contactSubmit = document.getElementById('contact-submit');
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    contactSubmit.disabled = true;
+    contactStatus.style.display = 'none';
+
+    try {
+      const res = await fetch('/api/contacto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nome: document.getElementById('contact-nome').value,
+          email: document.getElementById('contact-email').value,
+          assunto: document.getElementById('contact-assunto').value,
+          mensagem: document.getElementById('contact-mensagem').value,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erro ao enviar');
+
+      contactStatus.textContent = currentLang === 'en'
+        ? 'Message sent. Thank you for contacting us — we will reply soon.'
+        : 'Mensagem enviada. Obrigado pelo contacto — responderemos em breve.';
+      contactStatus.style.color = '#27AE60';
+      contactStatus.style.display = 'block';
+      contactForm.reset();
+    } catch (err) {
+      contactStatus.textContent = currentLang === 'en'
+        ? 'Could not send your message. Please try again later.'
+        : 'Não foi possível enviar a mensagem. Tente novamente mais tarde.';
+      contactStatus.style.color = '#C0392B';
+      contactStatus.style.display = 'block';
+    } finally {
+      contactSubmit.disabled = false;
+    }
+  });
 </script>
 </body>
 </html>
