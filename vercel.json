@@ -4,5 +4,8 @@
     "api/inscricao.js": { "maxDuration": 30 },
     "api/card.js": { "maxDuration": 30 },
     "api/webhook-aprovacao.js": { "maxDuration": 60 }
-  }
+  },
+  "redirects": [
+    { "source": "/webmail", "destination": "https://webmail.apcriminologia.com", "permanent": true }
+  ]
 }
